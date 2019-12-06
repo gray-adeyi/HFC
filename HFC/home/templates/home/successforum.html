@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block contents %}
+<div class="container center">
+	<div class="card-panel">
+		<p class="green">Your forum has been successfully created</p>
+		<a href="{% url 'home:member_account' mail=member.email %}">Continue</a>
+	</div>
+</div>
+{% endblock %}

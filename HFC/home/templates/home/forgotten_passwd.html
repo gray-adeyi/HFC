@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" style="-webkit-box-sizing: border-box;box-sizing: border-box;line-height: 1.15;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+	<head style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+		<meta charset="utf-8" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+		<title style="-webkit-box-sizing: inherit;box-sizing: inherit;">{{ members_details.firstname }}'s password reset</title>
+		<link rel="stylesheet" href="{% static 'home/css/materialize.css'%}">
+	</head>
+	<body style="-webkit-box-sizing: inherit;box-sizing: inherit;margin: 0;">
+		<div class="container" align="center" style="-webkit-box-sizing: inherit;box-sizing: inherit;margin: 0 auto;max-width: 1280px;width: 90%;">
+			<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+		<h3 class="blue-text darken-3" style="-webkit-box-sizing: inherit;box-sizing: inherit;color: #2196F3 !important;">Hi <b class="green-text">{{ members_details.firstname }}</b> you have
+		requested for a password reset, please set your new password in the form
+		below.</h3>
+			<br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+
+			<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+			<div class="row" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+				<div class="col s12 m10" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+					<div class="card-panel blue-text text-darken-3" style="-webkit-box-sizing: inherit;box-sizing: inherit;-webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);color: #1565C0 !important;">
+						<h5 style="-webkit-box-sizing: inherit;box-sizing: inherit;">Password Reset</h5>
+						<form action="{% url 'home:change_passwd' mail=theMail %}" method="POST" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+							{% csrf_token %}
+							<div class="row" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<div class="col s12 m6 hiddendiv" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<div class="input-field" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<input type='email' value="{{ theMail }}" id="email" class="validate">
+									<label style="-webkit-box-sizing: inherit;box-sizing: inherit;">Email</label>
+								</div>
+								</div>
+								<div class="col s12 m6" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<div class="input-field" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+									<input type="password" id="passwd">
+									<label style="-webkit-box-sizing: inherit;box-sizing: inherit;">New Password</label>
+								</div></div>
+								<div class="col s12 m6" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<div class="input-field" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+									{{ password_reset.password }}
+									<label style="-webkit-box-sizing: inherit;box-sizing: inherit;">Confirm Password</label>
+								</div>
+								<p id="passwd_status" style='color:red;'></p>
+								</div>
+							</div>
+							<div class="row" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+								<div class="input-field col s12 m6" style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+									<button type="submit" class="waves-effect waves-light btn-large green" style="-webkit-box-sizing: inherit;box-sizing: inherit;font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif;font-size: 100%;line-height: 1.15;margin: 0;overflow: visible;text-transform: none;-webkit-appearance: button;-webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);background-color: #4CAF50 !important;"><i class="fa fa-sign-in" style="-webkit-box-sizing: inherit;box-sizing: inherit;line-height: inherit;"></i> Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static 'home/js/validate_password.js' %}"></script>
+			<script type="text/javascript" src="{% static 'home/js/jquery.js' %}"></script>
+				<script type="text/javascript" src="{% static 'home/js/materialize.js' %}"></script>
+	</body>
+</html>

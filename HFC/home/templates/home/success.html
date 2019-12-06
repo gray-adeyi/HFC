@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content="width=device-width user-scalable=no shrink-to-fit=no initial-scale=1.0">
+	<link rel="icon" type="icon" href="">
+	<link rel="stylesheet" type="text/css" href="{% static 'home/css/materialize.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'home/font-awesome/css/font-awesome.min.css' %}">
+	{% if render_type == 'members_account' %}
+	<title>{% block title %}{{ title }}{% endblock %}</title>
+</head>
+	  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="{% url 'home:altindex' %}" class="brand-logo"> <img src="{% static 'home/images/logo/CSMC_small.png' %}" class="responsive-img"></a>
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+      {% block navbar_menu1 %}{% endblock %}
+    </div>
+  </nav>
+
+  <ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+ {% block navbar_menu_mobile1 %}{% endblock %}
+  </ul>
+<div class="container">
+	<div class="row" align = 'center'>
+		<div><img src="{% get_static_prefix %}{{ gif }}" class="responsive-img"></div>
+		<h3 class="green-text">Yay!!! Your account has been successfully created. A link has been sent to Your
+		email address, continue there to activate your account.</h3>
+	</div>
+</div>
+<body>
+	{% endif %}
+	{% if render_type == 'prayer_requests' %}
+	<title>{% block title0 %}{{ title }}{% endblock %}</title>
+</head>
+	  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="{% url 'home:altindex' %}" class="brand-logo"> <img src="{% static 'home/images/logo/CSMC_small.png' %}" class="responsive-img"></a>
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+      {% block navbar_menu2 %}{% endblock %}
+    </div>
+  </nav>
+
+  <ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+ {% block navbar_menu_mobile2 %}{% endblock %}
+  </ul>
+<div class="container">
+	<div class="row" align = 'center'>
+		<div><img src="{% get_static_prefix %}{{ gif }}" class="responsive-img"></div>
+		<h6 class="green-text">Yay!!! Your Prayer request has been sucessfully sent.</h6>
+		<h6>click <a href="#">here</a> to login now.</h6>
+		<h6>click <a href="{% url 'home:altindex' %}">here</a> to visit home page</h6>
+	</div>
+</div>
+<body>
+	{% endif %}
+	{% if render_type == 'suggestions' %}
+	<title>{% block title1 %}{{ title }}{% endblock %}</title>
+</head>
+	  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="{% url 'home:altindex' %}" class="brand-logo"> <img src="{% static 'home/images/logo/CSMC_small.png' %}" class="responsive-img"></a>
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+      {% block navbar_menu3 %}{% endblock %}
+    </div>
+  </nav>
+
+  <ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+ {% block navbar_menu_mobile3 %}{% endblock %}
+  </ul>
+<div class="container">
+	<div class="row" align = 'center'>
+		<div><img src="{% get_static_prefix %}{{ gif }}" class="responsive-img"></div>
+		<h6 class="green-text">Yay!!! Your suggestion has been successfully delivered.</h6>
+		<h6>click <a href="#">here</a> to login now.</h6>
+		<h6>click <a href="{% url 'home:altindex' %}">here</a> to visit home page</h6>
+	</div>
+</div>
+<body>
+	{% endif %}
+
+	{% if render_type == 'passwdrecovery' %}
+	<title>{{ members_details.firstname }} Password Recovery</title>
+</head>
+	  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="{% url 'home:altindex' %}" class="brand-logo"> <img src="{% static 'home/images/logo/new0.png' %}" class="responsive-img"></a>
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+
+    </div>
+  </nav>
+
+  <ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+
+  </ul>
+<div class="container">
+	<div class="row" align = 'center'>
+		<h3 class="green-text"><i class="blue-text">{{ members_details.firstname }}</i> a link has been sent to your email to reset your password.
+		click the log in button below after password has been reset. </h3>
+		<a href="{% url 'home:sign_in'%}" class="btn blue white-text">Log in</a>
+	</div>
+</div>
+<body>
+	{% endif %}
+	{% if render_type == 'success_password_reset' %}
+	<title>Successful Password Reset</title>
+</head>
+<body>
+	<div class="container">
+		<h3 class="blue-text">Your Password has been successfully reset.</h3>
+	<a href="{% url 'home:sign_in' %}" class="btn btn-lg blue white-textt">Login Now...</a>
+	</div>
+</body>
+	{% endif %}
+	{% if render_type == 'success_account_activation' %}
+	<title>Successful Account Activation</title>
+</head>
+<body>
+	<div class="container">
+		<h3 class="blue-text">Your Happy Family Online account has been successfully Activated.</h3>
+	<a href="{% url 'home:sign_in' %}" class="btn btn-lg blue white-textt">Login Now...</a>
+	</div>
+</body>
+	{% endif %}
+
+	{% if render_type == 'member_logout' %}
+	<div class="container">
+	<h5 class="blue-text">You have been successfully logged out of your HFC accout.</h5>
+	<a href="{% url 'home:sign_in' %}" class="btn btn-lg green">Login again</a>
+    </div>
+	{% endif %}
+
+	{% if render_type == 'add_member' %}
+	<head>
+		<title>Join Forum</title>
+	</head>
+	<div class="container">
+	<h5 class="blue-text">You have been successfully added to the group.</h5>
+	<a href="{% url 'home:forum' name=forum_name mail=member.email %}" class="btn btn-lg green">Visit group now.</a><br><br><br>
+	<a href="{% url 'home:explore_forum' mail=member.email %}" class="btn btn-lg green">Explore more forums</a>
+	</div>
+	{% endif %}
+
+	{% if render_type == 'remove_member' %}
+	<head>
+		<title>Leave Forum</title>
+	</head>
+	<div class='container'>
+	<h5 class="blue-text">You have been successfully removed from the group.</h5>
+	<a href="{% url 'home:member_account' mail=member.email %}" class="btn btn-lg green">Go to your profile now.</a><br><br><br>
+	<a href="{% url 'home:explore_forum' mail=member.email %}" class="btn btn-lg green">Explore other forums</a>
+	</div>
+	{% endif %}
+
+	{% if render_type == 'forum_creation' %}
+	<div class='container'>
+	<h5 class="blue-text">You have successfully created a new Forum.</h5>
+	<a href="{% url 'home:member_account' mail=member.email %}" class="btn btn-lg green">Go to your profile now.</a><br><br><br>
+	<a href="{% url 'home:forum' mail=member.email name=the_forum_name %}" class="btn btn-lg green">Continue to forum.</a>
+	{% endif %}
+
+	{% if render_type == 'new_post' %}
+	<head>
+		<title>New Post Upload</title>
+	</head>
+	<div class='container'>
+	<h5 class="blue-text">Your Post was successfully uploaded.</h5>
+	<a href="{% url 'home:member_account' mail=member.email %}" class="btn btn-lg green">Go to your profile now.</a>
+	{% endif %}
+<!-- scripts for this page -->
+<script type="text/javascript" src="{% static 'home/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/materialize.min.js' %}"></script>
+<script type="text/javascript">
+	M.AutoInit();
+</script>
+</body>
+</html>

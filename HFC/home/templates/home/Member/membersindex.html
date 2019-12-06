@@ -1,0 +1,398 @@
+<!--
+Author : Gbenga Michael
+On completion of this page outside the webserver environment,
+i am to edit some varibles to further integrate it with
+Django.
+-->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content="width=device-width user-scalable=no shrink-to-fit=no initial-scale=1.0">
+	<link rel="apple-touch-icon" href="{% static 'home/images/logo/HFC_LOGO.png' %}">
+  <link href="{% static 'home/images/logo/HFC_LOGO.png' %}" rel="shortcut icon">
+  <link rel="stylesheet" type="text/css" href="{% static 'home/css/materialize.css' %}">
+	<link rel="stylesheet" href="{% static 'home/font-awesome/css/all.css' %}">
+	<title>Welcome {{ member.firstname }}</title>
+</head>
+<body>
+
+  <main>
+    <div class="navbar-fixed">
+    <nav>
+    <div class="nav-wrapper blue">
+      <a href="#" class="brand-logo right">{{ member.username }}</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li></li>
+        <li><a href="{% url 'home:altindex' %}">Home</a></li>
+        <li><a href="{% url 'home:notification' mail=user.email %}">Notifications <span class="new badge green">{{ notification_count }}</span></a></li>
+        <li><a href="#">Messages <span class="new badge green">3</span></a></li>
+        <li><a href="{% url 'home:other_members' mail=user.email %}">Other Members <span class="badge yellow darken-3">{{ members_count }}</span></a></li>
+        <li><a class="waves-effect waves-light modal-trigger" href="{% url 'home:explore_forum' mail=member.email %}">Join Existing Forums</a></li>
+        <li><a class="waves-effect waves-light modal-trigger" href="#postmodal">Post</a></li>
+      </ul>
+    </div>
+  </nav>
+  </div>
+  {% if posts %}
+  <ul class="collection">
+    {% for p in posts %}
+    <li class="collection-item avatar">
+      <img src="/media/{{ p.posted_by.pix }}" alt="" class="circle">
+      <span class="title">{{ p.posted_by.member_to_string }}</span>
+  
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card-panel orange">
+        <h4 class="white-text">
+          {% if p.picture %}<img src="/media/{{ p.picture }}" class="responsive-img">{% endif %}
+          {% if p.video %}
+            <video width="420" height="340" poster="/media/{{ p.posted_by.pix }}" controls="controls" class="responsive-video">
+              <source src="/media/{{ p.video }}" type="video/mp4">
+                <source src="/media/{{ p.video }}" type="video/ogg" />
+                <source src="/media/{{ p.video }}" type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+          <h4 class="white-text">{% if p.text %}{{ p.text }}{% endif %}</h4>
+          
+        </h4>
+      </div>
+      <p class='orange-text text-lighten-3'>Uploaded on {{ p.upload_time | date }} at {{ p.upload_time | time }}</p>
+
+    </div>
+  </div>
+    </li>
+    {% endfor %}
+    </ul>   
+  {% endif %}
+
+<div class="container">
+    <ul class="pagination">
+    <li class="waves-effect blue"><a href="?page=1">
+      <i class="fa fa-angle-double-left"></i> First Page</a></li>
+
+    {% if post_detail.has_previous %}
+    <li class="waves-effect blue">
+      <a href="?page={{ posts.previous_page_number}}">
+      <i class="fa fa-angle-left"></i> Previous</a></li>
+    {% endif %}
+
+    <li class="waves-effect blue active">
+      <a href="#!">Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+      </a>
+    </li>
+
+    {% if posts.has_next  %}
+
+    <li class="waves-effect blue">
+      <a href="?page={{ posts.next_page_number }}">Next
+      <i class="fa fa-angle-right"></i>
+      </a>
+    </li>
+    <li class="waves-effect blue">
+      <a href="?page={{ posts.paginator.num_pages }}">Last Page
+      <i class="fa fa-angle-double-right"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  </div><br><br><br>
+  </main>
+	  
+
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="/media/{{ member.pix }}" class="responsive-img">
+      </div>
+      <a href="/media/{{ member.pix }}"><img class="circle" src="/media/{{ member.pix }}"></a>
+      <a href="#!"><span class="white-text name">{{ member.firstname }} {{ member.lastname }}</span></a>
+      <a href="#!"><span class="white-text email">{{ member.email }}</span></a>
+    </div></li>
+    <li><a href="{% url 'home:altindex' %}"><i class="fa fa-home"></i> Home</a></li>
+    <li><a href="{% url 'home:notification' mail=user.email %}">Notifications <span class="new badge green">{{ notification_count }}</span></a></li>
+    <li><a href="#!">Messages <span class="new badge green">3</span></a></li>
+    <li><a href="{% url 'home:other_members' mail=user.email %}">Other Members <span class="badge yellow">{{ members_count }}</span></a></li>
+    <li><a class="waves-effect waves-light modal-trigger" href="#postmodal">Post</a></li>
+    <li> <a class="waves-effect waves-light modal-trigger" href="#modal1"><i class="fa fa-user-cog"></i> Update Profile</a></li>
+    <li> <a class="waves-effect waves-light modal-trigger" href="#modal2"><i class="fa fa-id-card"></i> Create Forum</a></li>
+    <li> <a class="waves-effect waves-light" href="{% url 'home:explore_forum' mail=member.email %}"><i class="fa fa-user-plus"></i> Join Exising Forums</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">My Forums</a></li>
+    {% if active_forums %}
+      {% for forum in active_forums %}
+      
+      <li><a class="waves-effect" href="{% url 'home:forum' name=forum.forum_name mail=member.email %}">{{ forum.forum_name }}</a></li>
+      
+      {% endfor %}
+    {% endif %}
+    <li><a class="waves-effect waves-light modal-trigger" href="#egforum">e.g The way forward</a></li>
+    <li><a class="waves-effect waves-light modal-trigger" href="#egforum">e.g Bible study Group</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Aritcles</a></li>
+    <li><a class="waves-effect" href="{% url 'home:articles' 'news' %}"> <i class="fa fa-newspaper"></i> News</a></li>
+    <li><a class="waves-effect" href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+    <li><a class="waves-effect" href="{% url 'home:articles' 'biblestudy' %}">Bible study</a></li>
+    <li><a class="waves-effect" href="{% url 'home:articles' 'others' %}">Others</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Downloads</a></li>
+    <li><a class="waves-effect" href="{% url 'home:downloads' 'music' %}">Music</a></li>
+    <li><a class="waves-effect" href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+    <li><a class="waves-effect" href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+    <li><a class="waves-effect" href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+    <li><a class="waves-effect" href="{% url 'home:downloads' 'others' %}">Others</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="waves-effect" href="{% url 'home:member_logout' %}">Logout</a></li>
+  </ul>
+
+ 
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="#" data-target="slide-out" class="sidenav-trigger btn-floating blue"><i class="fa fa-bars"></i></a></li>
+    <li><a class="btn-floating yellow darken-1 waves-effect waves-light modal-trigger" href="#postmodal"><i class="fa fa-car"></i></a></li>
+    <li><a href="#0" class="btn-floating red cd-top js-cd-top"><i class="fa fa-arrow-circle-up"></i></a></li>
+    <li><a class="btn-floating  waves-effect" href="{% url 'home:member_logout' %}"><i class="fa fa-sign-out-alt"></i></a></li>
+  </ul>
+</div>
+
+
+ <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Update Profile <i class="fa fa-user-cog"></i></h4>
+      {% if updateprofile %}
+        <form action="{% url 'home:member_account' mail=member.email post_for='update_profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+          <div class="input-field col s12 m9">
+            {{ updateprofile.email }}
+            <label>Email</label>
+            <span class="helper-text" data-error="invalid email" data-success="valid email"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m9">
+            {{ updateprofile.phone }}
+            <label>Phone Number</label>
+            <span class="helper-text" data-error="invalid phone number" data-success="valid phone number"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m9">
+            {{ updateprofile.username }}
+            <label>Username</label>
+            <span class="helper-text" data-error="invalid username" data-success="valid username"></span>
+          </div>
+        </div>
+        <div class="input-field col s12 m6">
+          <p>Change Profile Picture</p>
+            <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Upload Picture</span>
+                      {{ updateprofile.path_to_pix }}
+                  </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Change Profile Picture">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m9">
+            {{ updateprofile.function_held }}
+            <label>Post held</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <button type="submit" class="btn-floating btn-large green waves-effect waves-light"><i class="fa fa-paper-plane"></i> Submit</button>
+          </div>
+        </div>
+        </form>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      {% if forum_form %}
+        <h4>Create New Forum <i class="fa fa-id-card"></i></h4>
+        <form action="{% url 'home:member_account' mail=member.email post_for='create_forum' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+            <div class="col s12 m6">
+            <div class="input-field">
+              {{ forum_form.forum_name }}
+              <label>Forum name</label>
+            </div>
+            <p class="red-text">{{ forum_form.forum_name.errors }}</p>
+            <div class="input-field col s12 m9">
+            {{ forum_form.forum_type }}
+            <label>Choose Forum Type</label>
+            <p class="red-text">{{ forum_form.forum_type.errors }}</p>
+          </div>
+            </div>
+            <div class="input-field col s12 m9">
+            <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Forum Logo</span>
+                      {{ forum_form.forum_logo }}
+                  </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Forum logo">
+                  <p class="red-text">{{ forum_form.forum_logo.errors }}</p>
+                </div>
+                </div>
+            </div>
+            <div class="input-field col s12">
+          {{ forum_form.forum_description }}
+          <label for="forum_description">Description</label>
+          <p class="red-text">{{ forum_forum.forum_description.errors }}</p>
+            </div>
+        <div class="input-field col s12">
+          {{ forum_form.forum_members }}
+          <label>Add Members</label>
+          <p class="red-text">{{ forum_form.forum_members.errors }}</p>
+        </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <button type="submit" class="waves-effect waves-light btn-large green"><i class="fa fa-paper-plane"></i> Create Forum</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="postmodal" class="modal">
+    <div class="modal-content">
+      {% if post_form %}
+        <h4>Post Something</h4>
+        <form action="{% url 'home:post' mail=member.email %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+            <div class="col s12 m6 hide">
+            <div class="input-field">
+              {{ post_form.posted_by }}
+            </div>
+            </div>
+            <div class="input-field col s12 m9">
+              <div class="input-field">
+            {{ post_form.text }}</div>
+          </div>
+            <div class="input-field col s12 m9">
+            <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Post Picture</span>
+                      {{ post_form.picture }}
+                  </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Post Picture">
+                </div>
+                </div>
+            </div>
+            <div class="input-field col s12 m9">
+            <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Post Video</span>
+                      {{ post_form.video }}
+                  </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Post Video">
+                </div>
+                </div>
+            </div>
+          <div class="input-field col s12 m6">
+            <button type="submit" class=" btn-large green waves-effect waves-light" onclick="loader()" id="thePost"><i class="fa fa-paper-plane"></i> Submit</button>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
+   <!-- Modal Structure -->
+  <div id="egforum" class="modal">
+    <div class="modal-content">
+        <h4>Hello {{ member.firstname }}</h4>
+        <p>This is a sample Forum entry. You dont belong to any forum yet?</p>
+        <p><a href="{% url 'home:explore_forum' mail=member.email %}" class="green white-text btn btn-large">Join Existing Forums</a></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
+  {% block footer %}
+
+        <footer class="page-footer black">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">{{ member.member_to_string }}'s Dashboard</h5>
+                <p class="grey-text text-lighten-4">Visit other links</p>
+                <p class="grey-text text-lighten-4"><a href="{% url 'home:altindex' %}"><i class="fa fa-home"></i> Home</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'news' %}"> <i class="fa fa-newspaper"></i> News</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'hab' %}">History and Biography</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'biblestudy' %}">Bible study</a></p>
+                <p class="gray-text text-lighten-4"><a href="{% url 'home:forms' 'suggestions' %}">Make Suggestions.</a></p>
+                <p class="gray-text text-lighten-4"><a href="{% url 'home:forms' 'prayer_requests' %}">Send Prayer Requests</a></p>
+              </div>
+              <div class="col l6 s12">
+                <h5 class="white-text">Socials</h5>
+                <h2 class="grey-text text-lighten-4"><a href=""><i class="fab fa-facebook"></i></a></h2>
+                <h2 class="grey-text text-lighten-4"><a href=""><i class="fab fa-instagram"></i></a></h2>
+                <h2 class="grey-text text-lighten-4"><a href=""><i class="fab fa-twitter"></i></a></h2>
+                <h2 class="grey-text text-lighten-4"><a href=""><i class="fab fa-whatsapp"></i></a></h2>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text"></h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2019 Copyright Church Media. All Rights Reserved.
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+        </footer>
+{% endblock %}
+
+<!-- scripts for this page -->
+<script type="text/javascript" src="{% static 'home/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/materialize.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/scroll-to-top-main.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/font-awesome/js/all.js' %}"></script>
+{% if successforum %}
+<script type="text/javascript" src="{% static 'home/js/successforum.js' %}"></script>
+{% endif %}
+<script type="text/javascript">
+	M.AutoInit();
+
+  var loader = function () {
+    document.getElementById("thePost").innerHTML = '<span class="fa fa-spinner fa-spin"></span> Submit Post'
+  }
+</script>
+</body>
+</html>

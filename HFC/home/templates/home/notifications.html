@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar_menu %}
+<!-- dropdown for dowmloads -->
+<ul class="dropdown-content" id="downloads1">
+  <li><a href="{% url 'home:downloads' 'music' %}" method='post'>Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles1">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul class="hide-on-med-and-down right">
+  <li><a href="#!" data-target='articles1' class="dropdown-trigger"><i class="fa fa-book"></i> Articles <i class="fa fa-angle-double-down"></i></a></li>
+  <li><a href="#!" data-target='downloads1' class="dropdown-trigger"><i class="fa fa-download"></i> Downloads <i class="fa fa-angle-double-down"></i></a></li>
+  <li><a href="{% url 'home:community' %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+</ul>
+{% endblock %}
+{% block navbar_menu_mobile %}
+<!-- dropdowm for downloads -->
+<ul class="dropdown-content" id="downloads2">
+  <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles2">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul>
+  <li><a href="{% url 'home:altindex'%}" class="white-text"> <i class="fa fa-home white-text"></i> Home</a></li>
+  <li><a href="" class = "{% block home_state1 %}{% endblock %} dropdown-trigger" data-target='articles2'><i class="fa fa-book"></i> Articles</a></li>
+  <li><a href="" class = "{% block download_state1 %}{% endblock %} dropdown-trigger" data-target='downloads2'><i class="fa fa-download"></i> Downloads</a></li>
+  <li><a href="{% url 'home:community' %}" class= "{% block community_state1 %}{% endblock %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+  <li><a href="{% url 'home:forms' 'suggestions' %}"><i class="fa fa-question"></i>Suggestions</a></li>
+  <li><a href="{% url 'home:forms' 'prayer_requests' %}"><i class="fa fa-bible"></i> Prayer Requests</a></li>
+</ul>
+{% endblock %}
+
+{% block container %}
+
+
+{% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+
+
+<ul class="collection with-header">
+        <li class="collection-header blue-text"><h4>{{ notifications.count }} New Notification{{ notifications | pluralize }}</h4></li>
+        {% for notification in notifications %}
+            <li class="collection-item"><p class="cyan-text text-darken-3">{{ notification.notification_content }}</p></li>
+    {% endfor %}
+      </ul>
+{% endblock%}

@@ -1,0 +1,133 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{%block title %}Other Members {% endblock %}
+{% block contents %}
+<nav>
+    <div class="nav-wrapper fixed blue">
+      <a href="#" class="brand-logo">Other Members</a>
+      
+    </div>
+  </nav>
+
+
+{% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+    <li><a href="#0" class="btn-floating red cd-top js-cd-top"><i class="fa fa-arrow-circle-up"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+<p id="0"></p>
+
+<div class="container">
+	<div class="row">
+		<div class="col s12 m12 white">
+      <h1 class="z-depth-5 grey-text center">Here's a list of  other members</h2>
+    </div>
+	</div>
+</div>
+
+{% if other_members %}
+	<div class="row">
+	{% for member in other_members %}
+  {% if member.email == user.email %}
+  {% else %}
+		<div class="col s12 m4">
+      <div class="card">
+        <div class="card-image">
+          <img src="/media/{{ member.pix }}">
+          <span class="card-title">{{ member.lastname }} {{ member.firstname }}</span>
+          <a class=" btn btn-floating halfway-fab waves-effect waves-light green" href="{% url 'home:private_forum' mail=user.email other_user_mail=member.email %}"><i class="fa fa-paper-plane"></i></a>
+        </div>
+        <div class="card-content">
+          <h4><b class="green-text">{{ member.firstname }} {{ member.lastname }}</b></h4><br>
+          <p>Is a <b class="green-text">{{ member.gender }}</b></p><br>
+          <p>Call on <b class="green-text">{{ member.phone }}</b></p><br>
+          <p>Has {% if member.gender == 'male' %}his{% else %}her{% endif %} birthday on <b class="green-text">{{ member.D_O_B | date:"d/M" }}</b></p><br>
+          <p>Is a <b class="green-text">{{ member.function_held }}</b></p><br>
+        </div>
+        <div class="card-action">
+          	<a href="{% url 'home:private_forum' mail=user.email other_user_mail=member.email %}" class="">Message</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+	{% endfor %}
+	</div>
+{% endif %}
+
+<div class="container">
+    <ul class="pagination">
+    <li class="waves-effect blue"><a href="?page=1">
+      <i class="fa fa-angle-double-left"></i> First Page</a></li>
+
+    {% if other_members.has_previous %}
+    <li class="waves-effect blue">
+      <a href="?page={{other_members.previous_page_number}}">
+      <i class="fa fa-angle-left"></i> Previous</a></li>
+    {% endif %}
+
+    <li class="waves-effect blue active">
+      <a href="#!">Page {{ other_members.number }} of {{ other_members.paginator.num_pages }}
+      </a>
+    </li>
+
+    {% if other_members.has_next  %}
+
+    <li class="waves-effect blue">
+      <a href="?page={{ other_members.next_page_number }}">Next
+      <i class="fa fa-angle-right"></i>
+      </a>
+    </li>
+    <li class="waves-effect blue">
+      <a href="?page={{ other_members.paginator.num_pages }}">Last Page
+      <i class="fa fa-angle-double-right"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  </div>
+{% endblock %}
+
+{% block footer %}
+
+        <footer class="page-footer black">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Explore All Active Forums</h5>
+                <p class="grey-text text-lighten-4">Get connected with all other members. Meet new members. Discuss and share the word of God.</p>
+                <p class="grey-text text-lighten-4">Join a forum today!</p>
+                <p class="grey-text text-lighten-4">Visit other links</p>
+                <p class="grey-text text-lighten-4"><a href="{% url 'home:altindex' %}"><i class="fa fa-home"></i> Home</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'news' %}"> <i class="fa fa-newspaper"></i> News</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'hab' %}">History and Biography</a></p>
+                <p class="grey-text text-lighten-4"><a class="waves-effect" href="{% url 'home:articles' 'biblestudy' %}">Bible study</a></p>
+                <p class="gray-text text-lighten-4"><a href="{% url 'home:forms' 'suggestions' %}">Make Suggestions.</a></p>
+                <p class="gray-text text-lighten-4"><a href="{% url 'home:forms' 'prayer_requests' %}">Send Prayer Requests</a></p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text"></h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2019 Copyright Church Media. All Rights Reserved.
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+        </footer>
+{% endblock %}
+  
+ 
+
+    
+  

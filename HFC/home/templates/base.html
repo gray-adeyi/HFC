@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name = "viewport" content="width=device-width shrink-to-fit= no initial-scale= 1.0 user-scalable = no">
+  
+<link rel="apple-touch-icon" href="{% static 'home/images/logo/HFC_LOGO.png' %}">
+  <link href="{% static 'home/images/logo/HFC_LOGO.png' %}" rel="shortcut icon">
+	<link rel="stylesheet" href="{% static 'home/css/materialize.css' %}">
+	<link rel="stylesheet" href="{% static 'home/font-awesome/css/all.css' %}">
+  {% block link %}{% endblock %}
+</head>
+<body>
+<header>
+	  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="{% url 'home:altindex' %}" class="brand-logo"> <img src="{% static 'home/images/logo/hfc_logo_2.png' %}" class="responsive-img"></a>
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+      {% block navbar_menu %}{% endblock %}
+    </div>
+  </nav>
+
+  <ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+ {% block navbar_menu_mobile %}{% endblock %}
+  </ul>
+</header>
+<main>
+	{% block container %}{% endblock%}
+</main>
+
+
+<!-- Footer -->
+<footer class="page-footer cyan accent-2">
+  <div class="container">
+    <div class="row">
+      <div class="col l4 s12">   <!-- for address -->
+        <h4 class="blue-text text-darken-4">Address</h4>
+        <p class="black-text text-lighten-3">158 / 182 Igando Road, Bakare B/Stop, Ikotun Lagos Nigeria.</p>
+      </div>
+      <div class="col l4 s12">   <!-- for socials -->
+        <h4 class="blue-text text-darken-4">Socials</h4>
+      </div>
+      <div class="col l4 s12">   <!-- for links -->
+        <h4 class="blue-text text-darken-4">Pages</h4>
+        <p class="blue-text text-lighten-3"><a href="">Visit our community.</a></p>
+        <p class="blue-text text-lighten-3"><a href="{% url 'home:forms' 'suggestions' %}">Make Suggestions.</a></p>
+        <p class="blue-text text-lighten-3"><a href="{% url 'home:forms' 'prayer_requests' %}">Send Prayer Requests</a></p>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal Structure -->
+  <div id="info" class="modal">
+    <div class="modal-content black-text">
+      <h4 class='grey-text'>More info about this website</h4>
+
+  <div class="row">
+    <div class="col s12 m5">
+      <div class="card-panel teal">
+        <span class="white-text">
+          All thanks and special dedication goes to God Almighty who made this possible.
+        </span>
+      </div>
+    </div>
+  </div>
+            
+      <h5 class="grey-text">Made with</h5>
+      {%for tool in tools %}
+        <div class="row">
+    <div class="col s12 m7">
+      <div class="card small">
+        <div class="card-image">
+          <img src="media/{{ tool.photo }}">
+          <span class="card-title">{{ tool.name }}</span>
+        </div>
+        <div class="card-content">
+          <p>{{ tool.use }}</p>
+        </div>
+        <div class="card-action">
+          <a href="{{ tool.website }}">{{ tool.website }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+      {% endfor %}
+      <h5 class="grey-text">Developers</h5>
+      {% for developer in developers %}
+        <div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="media/{{ developer.photo }}">
+          <span class="card-title">{{ developer.full_name }}</span>
+        </div>
+        <div class="card-content">
+          <p><span class="orange-text"><b>Name </b></span>{{ developer.full_name }}</p>
+          <p><span class="orange-text"><b>Contributions </b></span>{{ developer.contributions }}</p>
+          <p><span class="orange-text"><b>Programming Languages and specialization </b></span>{{ developer.languages }}</p>
+          <p><span class="orange-text"><b>Phone number </b></span>{{ developer.phone}}</p>
+          <p><span class="orange-text"><b>Email </b></span>{{ developer.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+      {% endfor %}
+      <h5 class="grey-text">Contributors</h5>
+      {% for contributor in contributors %}
+        <div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="media/{{ contributor.photo }}">
+          <span class="card-title">{{ contributor.full_name }}</span>
+        </div>
+        <div class="card-content">
+          <p><span class="orange-text"><b>Name </b></span>{{ contributor.full_name }}</p>
+          <p><span class="orange-text"><b>Contributions </b></span>{{ contributor.contributions }}</p>
+          <p><span class="orange-text"><b>Phone number </b></span>{{ contributor.phone}}</p>
+          <p><span class="orange-text"><b>Email </b></span>{{ contributor.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+      {% endfor %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="right blue lighten-5 black-text text-lighten-3">&copy; 2019 Church media. All Rights Reserved. <a href="#info" class="modal-trigger">More Info about this website.</a><br><br><br><br></div>
+  </div>
+</footer>
+
+<!-- Footer ending -->
+<!-- Scripts here -->
+<script src="{% static 'home/js/jquery.js' %}"></script>
+<script src="{% static 'home/js/materialize.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/scroll-to-top-main.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/font-awesome/js/all.js' %}"></script>
+{% block script %}{% endblock %}
+<script>
+M.AutoInit();
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var options0 = {
+      alignment : 'bottom',
+      constrainWidth : false,
+      coverTrigger : false,
+      stopPropagation : true
+    }
+    var instances = M.Dropdown.init(elems, options0);
+  });
+</script>
+</body>
+</html>

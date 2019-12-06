@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name = "viewport" content="width=device-width shrink-to-fit= no initial-scale= 1.0 user-scalable = no">
+<link rel="apple-touch-icon" href="{% static 'home/images/logo/HFC_LOGO.png' %}">
+  <link href="{% static 'home/images/logo/HFC_LOGO.png' %}" rel="shortcut icon">
+	<link rel="stylesheet" type="text/css" href="{% static 'home/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'home/font-awesome/css/all.css' %}">
+	<title>{%block title %}{% endblock %}</title>
+	<style type="text/css">
+		 body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: rgba(0,0,100,0.5);
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+	</style>
+	{% block style %}{% endblock %}
+</head>
+<body>
+<main>{%block contents %}{% endblock %}</main>
+{%block footer %}{% endblock %}
+<!-- The Scripts -->
+<script type="text/javascript" src="{% static 'home/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/materialize.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'home/js/ajax.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'home/js/scroll-to-top-main.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/font-awesome/js/all.js' %}"></script>
+<script type="text/javascript">
+	M.AutoInit();
+</script>
+</body>
+</html>

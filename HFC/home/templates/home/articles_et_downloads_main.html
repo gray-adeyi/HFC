@@ -1,0 +1,482 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}
+		{% if music_list %}HFC | Music Downloads {% endif %}
+		{% if video_list %}HFC | Video Downloads {% endif %}
+		{% if picture_list %}HFC | Picture Downloads {% endif %}
+		{% if pdf_list %}HFC | PDF Downloads {% endif %}
+		{% if other_list %}HFC | Other Content Downloads {% endif %}
+     {% if news_list %}HFC | News Articles{% endif %}
+      {% if hb_list %}HFC | History and Biography{% endif %}
+      {% if bstudy_list %}HFC | Bible Study Articles{% endif %}
+      {% if otherA_list %}HFC | Other Articles{% endif %}
+	{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name = "viewport" content="width=device-width shrink-to-fit= no initial-scale= 1.0 user-scalable = no">
+  
+  <link rel="apple-touch-icon" href="{% static 'home/images/logo/HFC_LOGO.png' %}">
+  <link href="{% static 'home/images/logo/HFC_LOGO.png' %}" rel="shortcut icon">
+	<link rel="stylesheet" href="{% static 'home/css/materialize.css' %}">
+	<link rel="stylesheet" href="{% static 'home/font-awesome/css/all.css' %}">
+</head>
+<body>
+<header>
+
+<nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="#" class = "sidenav-trigger" data-target = "mobile-nav"><i class="fa fa-bars"></i></a>
+      <a href="{% if music_list %}{%url 'home:downloads' 'music' %}{% endif %}
+      {% if video_list %}{%url 'home:downloads' 'videos' %}{% endif %}
+      {% if picture_list %}{%url 'home:downloads' 'picture' %}{% endif %}
+      {% if pdf_list %}{%url 'home:downloads' 'pdf' %}{% endif %}
+      {% if other_list %}{%url 'home:downloads' 'others' %}{% endif %}" class="brand-logo center">{%block logo %}
+    {% if music_list %}HFC Music Downloads{% endif %}
+    {% if video_list %}HFC Video Downloads{% endif %}
+    {% if picture_list %}HFC Picture Downloads{% endif %}
+    {% if pdf_list %}HFC PDF Downloads{% endif %}
+    {% if other_list %}HFC Other Content Download<{% endif %}
+    {% if news_list %}HFC News Articles{% endif %}
+    {% if hb_list %}HFC History and Biography Articles{% endif %}
+    {% if bstudy_list %}HFC Bible Study Articles{% endif %}
+    {% if otherA_list %}HFC Other Articles{% endif %}
+      {% endblock %}</a>
+
+      <!-- dropdown for downloads -->
+<ul class="dropdown-content" id="downloads1">
+  <li class="{% if music_list %}active{% endif %}"><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li class="{% if video_list %}active{% endif %}"><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li class="{% if picture_list %}active{% endif %}"><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li class="{% if pdf_list %}active{% endif %}"><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li class="{% if other_list %}active{% endif %}"><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles1">
+  <li class="{% if news_list %}active{% endif %}"><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li class="{% if hb_list %}active{% endif %}"><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li class="{% if bstudy_list %}active{% endif %}"><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li class="{% if otherA_list %}active{% endif %}"><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="{% url 'home:altindex'%}">Home</a></li>
+        <li class="
+    {% if news_list %}active{% endif %}
+    {% if hb_list %}active{% endif %}
+    {% if bstudy_list %}active{% endif %}
+    {% if otherA_list %}active{% endif %}
+        "><a href="#!" data-target='articles1' class="dropdown-trigger"><i class="fa fa-book"></i> Articles <i class="fa fa-angle-double-down"></i></a></li>
+        <li class="
+             {% if music_list %}active{% endif %}
+    {% if video_list %}active{% endif %}
+    {% if picture_list %}active{% endif %}
+    {% if pdf_list %}active{% endif %}
+    {% if other_list %}active{% endif %}
+      "><a href="#!" data-target='downloads1' class="dropdown-trigger white-text"><i class="fa fa-download"></i> Downloads <i class="fa fa-angle-double-down"></i></a></li>
+        <li><a href="{% url 'home:community' %}"><i class="fa fa-users"></i> Community</a></li>
+      </ul>
+      <!-- I have to put this form in a django block so i can run several types for articles and downloads -->
+      <form class="right hide-on-med-and-down" method="POST" action="{% if music_list %}{% url 'home:downloads' 'music' %}{% endif %}
+      {% if video_list %}{% url 'home:downloads' 'videos' %}{% endif %}
+      {% if picture_list %}{% url 'home:downloads' 'picture' %}{% endif %}
+      {% if pdf_list %}{% url 'home:downloads' 'pdf' %}{% endif %}
+      {% if other_list %}{% url 'home:downloads' 'other' %}{% endif %}
+      {% if news_list %}{% url 'home:articles' 'news' %}{% endif %}
+      {% if hab_list %}{% endif %}
+      {% if bstudy_list %}{% endif %}
+      {% if otherA_list %}{% endif %}">
+        {% csrf_token %}
+        <div class="input-field">
+          {{ search.search }}
+          <label class="label-icon" for="search"><i class="fa fa-search"></i></label>
+        </div>
+      </form>
+    </div>
+  </nav>
+
+<ul id = 'mobile-nav' class = "sidenav blue lighten-2">
+ {% block navbar_menu_mobile %}
+
+ <!-- dropdowm for dowmloads -->
+<ul class="dropdown-content" id="downloads2">
+  <li class="{% if music_list %}active{% endif %}"><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li class="{% if video_list %}active{% endif %}"><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li class="{% if picture_list %}active{% endif %}"><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li class="{% if pdf_list %}active{% endif %}"><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li class="{% if other_list %}active{% endif %}"><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles2">
+  <li class="{% if news_list %}active{% endif %}"><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li class="{% if hab_list %}active{% endif %}"><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li class="{% if bstudy_list %}active{% endif %}"><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li class="{% if otherA_list %}active{% endif %}"><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul id="nav-mobile">
+        <li><a href="{% url 'home:altindex'%}">Home</a></li>
+        <li><a href="#!" data-target='articles2' class="dropdown-trigger"><i class="fa fa-book"></i> Articles</a></li>
+        <li class="{% if music_list %}active{% endif %}{% if video_list %}active{% endif %}{% if picture_list %}active{% endif %}{% if pdf_list %}active{% endif %}{% if other_list %}active{% endif %}"><a href="" class = "{% block download_state1 %}{% endblock %} dropdown-trigger" data-target='downloads2'><i class="fa fa-download"></i> Downloads</a></li>
+        <li class=""><a href="{% url 'home:community' %}"><i class="fa fa-users"></i> Community</a></li>
+        <li><a href="{% url 'home:forms' 'members_account' %}">Sign Up</a></li>
+        <li><a href="{% url 'home:sign_in' %}">Log In</a></li>
+      </ul>
+      <!-- I have to put this form in a django block so i can run several types for articles and downloads -->
+      <form method="POST" action="{% if music_list %}{% url 'home:downloads' 'music' %}{% endif %}
+      {% if video_list %}{% url 'home:downloads' 'videos' %}{% endif %}
+      {% if picture_list %}{% url 'home:downloads' 'picture' %}{% endif %}
+      {% if pdf_list %}{% url 'home:downloads' 'pdf' %}{% endif %}
+      {% if other_list %}{% url 'home:downloads' 'other' %}{% endif %}
+      {% if news_list %}{% url 'home:articles' 'news' %}{% endif %}">
+        {% csrf_token %}
+        <div class="input-field">
+          {{ search.search }}
+          <label class="label-icon" for="search"><i class="fa fa-search"></i></label>
+        </div>
+      </form>
+ {% endblock %}
+  </ul>
+
+</header>
+	{% block container %}
+  {% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+    <li><a href="#0" class="btn-floating red cd-top js-cd-top"><i class="fa fa-arrow-circle-up"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+  
+  {% if result_count %}<h3>{{ result_count }} Result(s) found.</h3>{% endif %}
+  {% if error_msg %}<h3 class="red-text center">{{ error_msg }}</h3>{% endif %}
+  <!-- The following below displays the list of musics available -->
+  <div class="row">
+  {% if music_list %}
+    {% for music in music_list %}
+    <div class="col s12 m4">
+      <a href="{% url 'home:download_now' type='music' filename=music.filename %}">
+      <div class="card">
+        <div class="card-image">{% for music_file in music.downloadfile_set.all %}
+          <img src="/media/{{ music_file.poster }}" class='responsive-img'>
+          {% endfor %}
+        </div>
+        <div class="card-content">
+          Download {{ music.filename }}
+        </div>
+        <div class="card-action">
+        </div>
+      </div>
+      </a>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+
+  <!-- The following below displays the list of videos available -->
+  <div class="row">
+  {% if video_list %}
+    {% for video in video_list %}
+    <div class="col s12 m4">
+      <a href="{% url 'home:download_now' type='videos' filename=video.filename %}">
+      <div class="card">
+        <div class="card-image">{% for video_file in video.downloadfile_set.all %}
+          <img src="/media/{{ video_file.poster }}" class='responsive-img'>
+          {% endfor %}
+        </div>
+        <div class="card-content">
+          Download {{ video.filename }}
+        </div>
+        <div class="card-action">
+        </div>
+      </div>
+      </a>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <!-- The following below displays the list of pictures available -->
+  <div class="row">
+  {% if picture_list %}
+    {% for picture in picture_list %}
+    <div class="col s12 m4">
+      <a href="{% url 'home:download_now' type='picture' filename=picture.filename %}">
+      <div class="card">
+        <div class="card-image">{% for picture_file in picture.downloadfile_set.all %}
+          <img src="/media/{{ picture_file.poster }}" class='responsive-img'>
+          {% endfor %}
+        </div>
+        <div class="card-content">
+          Download {{ picture.filename }}
+        </div>
+        <div class="card-action">
+        </div>
+      </div>
+      </a>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <!-- The following below displays the list of pdf available -->
+  <div class="row">
+  {% if pdf_list %}
+    {% for pdf in pdf_list %}
+    <div class="col s12 m4">
+      <a href="{% url 'home:download_now' type='pdf' filename=pdf.filename %}">
+      <div class="card">
+        <div class="card-image">{% for pdf_file in pdf.downloadfile_set.all %}
+          <img src="/media/{{ pdf_file.poster }}" class='responsive-img'>
+          {% endfor %}
+        </div>
+        <div class="card-content">
+          Download {{ pdf.filename }}
+        </div>
+        <div class="card-action">
+        </div>
+      </div>
+      </a>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <!-- The following below displays the list of other documents available -->
+  <div class="row">
+  {% if other_list %}
+    {% for other in other_list %}
+    <div class="col s12 m4">
+      <a href="{% url 'home:download_now' type='other' filename=other.filename %}">
+      <div class="card">
+        <div class="card-image">{% for other_file in other.downloadfile_set.all %}
+          <img src="/media/{{ music_file.poster }}" class='responsive-img'>
+          {% endfor %}
+        </div>
+        <div class="card-content">
+          Download {{ other.filename }}
+        </div>
+        <div class="card-action">
+        </div>
+      </div>
+      </a>
+    </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <!-- The following below displays the list of news articles available -->
+  <div class="row">
+    {% if news_list %}
+    {% for news in news_list %}
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image"><img src="/media/{{ news.article_image }}" class='responsive-img'>
+        </div>
+        <div class="card-content">
+          <h5 class="blue-text darken-1">{{ news.title }}</h5>
+          <a href="{% url 'home:active_article' type='news' title=news.title %}" class="btn green white-text">View Article</a>
+        </div>
+        <div class="card-action">
+          <p>Published by <b class="green-text">{{ news.publisher }}</b></p>
+          <p>Posted on <b class="green-text">{{ news.pub_date_et_time }}</b></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- The following below displays the list of history and biography articles available -->
+  <div class="row">
+    {% if hb_list %}
+    {% for hb in hb_list %}
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image"><img src="/media/{{ hb.article_image }}" class='responsive-img'>
+        </div>
+        <div class="card-content">
+          <h5 class="blue-text darken-1">{{ hb.title }}</h5>
+          <a href="{% url 'home:active_article' type='hab' title=hb.title %}" class="btn green white-text">View Article</a>
+        </div>
+        <div class="card-action">
+          <p>Published by <b class="green-text">{{ hb.publisher }}</b></p>
+          <p>Posted on <b class="green-text">{{ hb.pub_date_et_time }}</b></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+    <!-- The following below displays the list of bible study articles available -->
+  <div class="row">
+    {% if bstudy_list %}
+    {% for bstudy in bstudy_list %}
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image"><img src="/media/{{ bstudy.article_image }}" class='responsive-img'>
+        </div>
+        <div class="card-content">
+          <h5 class="blue-text darken-1">{{ bstudy.title }}</h5>
+          <a href="{% url 'home:active_article' type='biblestudy' title=bstudy.title %}" class="btn green white-text">View Article</a>
+        </div>
+        <div class="card-action">
+          <p>Published by <b class="green-text">{{ bstudy.publisher }}</b></p>
+          <p>Posted on <b class="green-text">{{ bstudy.pub_date_et_time }}</b></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+    <!-- The following below displays the list of other articles available -->
+ <div class="row">
+    {% if otherA_list %}
+    {% for otherA in otherA_list %}
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image"><img src="/media/{{ otherA.article_image }}" class='responsive-img'>
+        </div>
+        <div class="card-content">
+          <h5 class="blue-text darken-1">{{ otherA.title }}</h5>
+          <a href="{% url 'home:active_article' type='others' title=otherA.title %}" class="btn green white-text">View Article</a>
+        </div>
+        <div class="card-action">
+          <p>Published by <b class="green-text">{{ otherA.publisher }}</b></p>
+          <p>Posted on <b class="green-text">{{ otherA.pub_date_et_time }}</b></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  {% endblock %}
+
+  <div class="container">
+    <ul class="pagination">
+    <li class="waves-effect blue"><a href="
+      {% if music_list or video_list or picture_list or pdf_list or other_list or news_list or hb_list or bstudy_list or otherA_list %}?page=1{% endif %}">
+      <i class="fa fa-angle-double-left"></i> First Page</a></li>
+
+    {% if music_list.has_previous or video_list.has_previous or picture_list.has_previous or pdf_list.has_previous or other_list.has_previous or news_list.has_previous or hb_list.has_previous or bstudy_list.has_previous or otherA_list.has_previous %}
+    <li class="waves-effect blue">
+      <a href="{% if music_list %}?page={{music_list.previous_page_number}}{% endif %}
+      {% if video_list %}?page={{ video_list.previous_page_number}}{% endif %}
+      {% if picture_list %}?page={{ picture_list.previous_page_number}}{% endif %}
+      {% if pdf_list %}?page={{ pdf_list.previous_page_number}}{% endif %}
+      {% if other_list %}?page={{ other_list.previous_page_number}}{% endif %}
+      {% if news_list %}?page={{ news_list.previous_page_number}}{% endif %}
+      {% if hb_list %}?page={{ hb_list.previous_page_number}}{% endif %}
+      {% if bstudy_list %}?page={{ bstudy_list.previous_page_number}}{% endif %}
+      {% if otherA_list %}?page={{ otherA_list.previous_page_number}}{% endif %}">
+      <i class="fa fa-angle-left"></i> Previous</a></li>
+    {% endif %}
+
+    <li class="waves-effect blue active">
+      <a href="#!">Page {% if music_list %}{{ music_list.number }}{% endif %}
+      {% if video_list %}{{ video_list.number }}{% endif %}
+    {% if picture_list %}{{ picture_list.number }}{% endif %}
+  {% if pdf_list %}{{ pdf_list.number }}{% endif %}
+{% if other_list %}{{ other_list.number }}{% endif %}
+{% if news_list %}{{ news_list.number}}{% endif %}
+{% if hb_list %}{{ hb_list.number}}{% endif %}
+{% if bstudy_list %}{{ bstudy_list.number}}{% endif %}
+{% if otherA_list %}{{ otherA_list.number}}{% endif %} of
+{% if music_list %}{{ music_list.paginator.num_pages }}{% endif %}
+{% if video_list %}{{ video_list.paginator.num_pages }}{% endif %}
+{% if picture_list %}{{ picture_list.paginator.num_pages }}{% endif %}
+{% if pdf_list %}{{ pdf_list.paginator.num_pages }}{% endif %}
+{% if other_list %}{{ other_list.paginator.num_pages }}{% endif %}
+{% if news_list %}{{ news_list.paginator.num_pages }}{% endif %}
+{% if hb_list %}{{ hb_list.paginator.num_pages }}{% endif %}
+{% if bstudy_list %}{{ bstudy_list.paginator.num_pages }}{% endif %}
+{% if otherA_list %}{{ otherA_list.paginator.num_pages }}{% endif %}
+      </a>
+    </li>
+
+    {% if music_list.has_next or video_list.has_next or picture_list.has_next or pdf_list.has_next or other_list.has_next or news_list.has_next or hb_list.has_next or bstudy_list.has_next or otherA.has_next %}
+
+    <li class="waves-effect blue">
+      <a href="{% if music_list %}?page={{ music_list.next_page_number }}{% endif %}
+      {% if video_list %}?page={{ video_list.next_page_number }}{% endif %}
+      {% if picture_list %}?page={{ picture_list.next_page_number }}{% endif %}
+      {% if pdf_list %}?page={{ pdf_list.next_page_number }}{% endif %}
+      {% if other_list %}?page={{ other_list.next_page_number }}{% endif %}
+      {% if news_list %}?page={{ news_list.next_page_number}}{% endif %}
+      {% if hb_list %}?page={{ hb_list.next_page_number}}{% endif %}
+      {% if bstudy_list %}?page={{ bstudy_list.next_page_number}}{% endif %}
+      {% if otherA_list %}?page={{ otherA_list.next_page_number}}{% endif %}">Next
+      <i class="fa fa-angle-right"></i>
+      </a>
+    </li>
+    <li class="waves-effect blue">
+      <a href="{% if music_list %}?page={{ music_list.paginator.num_pages }}{% endif %}
+      {% if video_list %}?page={{ video_list.paginator.num_pages }}{% endif %}
+      {% if picture_list %}?page={{ picture_list.paginator.num_pages }}{% endif %}
+      {% if pdf_list %}?page={{ pdf_list.paginator.num_pages }}{% endif %}
+      {% if other_list %}?page={{ other_list.paginator.num_pages }}{% endif %}
+      {% if news_list %}?page={{ news_list.paginator.num_pages }}{% endif %}
+      {% if hb_list %}?page={{ hb_list.paginator.num_pages }}{% endif %}
+      {% if bstudy_list %}?page={{ bstudy_list.paginator.num_pages }}{% endif %}
+      {% if otherA_list %}?page={{ otherA_list.paginator.num_pages }}{% endif %}">Last Page
+      <i class="fa fa-angle-double-right"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  </div>
+
+<!-- Footer -->
+<footer class="page-footer cyan accent-2">
+  <div class="container">
+    <div class="row">
+      <div class="col l4 s12">   <!-- for address -->
+        <h4 class="blue-text text-darken-4">Address</h4>
+        <p class="black-text text-lighten-3">158 / 182 Igando Road, Bakare B/Stop, Ikotun Lagos Nigeria.</p>
+      </div>
+      <div class="col l4 s12">   <!-- for socials -->
+        <h4 class="blue-text text-darken-4">Socials</h4>
+      </div>
+      <div class="col l4 s12">   <!-- for links -->
+        <h4 class="blue-text text-darken-4">Pages</h4>
+        <p class="blue-text text-lighten-3"><a href="">Visit our community.</a></p>
+        <p class="blue-text text-lighten-3"><a href="{% url 'home:forms' 'suggestions' %}">Make Suggestions.</a></p>
+        <p class="blue-text text-lighten-3"><a href="{% url 'home:forms' 'prayer_requests' %}">Send Prayer Requests</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="right blue lighten-5 black-text text-lighten-3">&copy; 2018 Church media. All Rights Reserved. <a href="">More Info.</a></div>
+  </div>
+</footer>
+<!-- Footer ending -->
+<!-- Scripts here -->
+<script src="{% static 'home/js/jquery.js' %}"></script>
+<script src="{% static 'home/js/materialize.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/scroll-to-top-main.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/font-awesome/js/all.js' %}"></script>
+<script>
+M.AutoInit();
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var options0 = {
+      alignment : 'bottom',
+      constrainWidth : false,
+      coverTrigger : false,
+      stopPropagation : true
+    }
+    var instances = M.Dropdown.init(elems, options0);
+  });
+</script>
+</body>
+</html>

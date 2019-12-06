@@ -1,0 +1,505 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ church_detail.name }} | Homepage</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Facebook Opengraph integration: https://developers.facebook.com/docs/sharing/opengraph -->
+  <meta property="og:title" content="">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+
+  <!-- Twitter Cards integration: https://dev.twitter.com/cards/  -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="">
+
+  <!-- Place your favicon.ico and apple-touch-icon.png in the template root directory -->
+  <link rel="apple-touch-icon" href="{% static 'home/images/logo/HFC_LOGO.png' %}">
+  <link href="{% static 'home/images/logo/HFC_LOGO.png' %}" rel="shortcut icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{% static 'home/imperial/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="{% static 'home/imperial/lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home/imperial/lib/animate-css/animate.min.css' %}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="{% static 'home/imperial/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: Imperial
+    Theme URL: https://bootstrapmade.com/imperial-free-onepage-bootstrap-theme/
+    Author: BootstrapMade.com
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+</head>
+
+<body>
+  
+  <div id="preloader"></div>
+
+
+  <!--==========================
+  Hero Section
+  ============================-->
+  <section id="hero">
+    <div class="hero-container">
+      <div class="wow fadeIn">
+        <div class="hero-logo">
+          <img class="" src="{% static 'home/images/logo/HFC_LOGO.png' %}" alt="site logo">
+        </div>
+
+        <h1>Welcome to Happy Family Church Online</h1>
+        <h2>We provide an environment <span class="rotating">where every member expresses themselves as a going concern in God's Kingdom business, for the formation of attitude of stewardship, Where young adults are guilded against the obstacles of modern society., for fuller and deeper spirituality growth., where emphasis is both on physical and spiritual growth of members.</span></h2>
+        <div class="actions">
+          <a href="{% url 'home:forms' 'members_account' %}" class="btn-get-started">Sign up now</a>
+          <a href="{% url 'home:sign_in' %}" class="btn-services">Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+  Header Section
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <a href="#hero"><img src="{% static 'home/images/logo/hfc_logo_2.png' %}" alt="" title="" /></img></a>
+        <!-- Uncomment below if you prefer to use a text image -->
+        <!--<h1><a href="#hero">Header 1</a></h1>-->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#hero">Home</a></li>
+          <li><a href="#team">Recent News</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Our Services</a></li>
+          <li><a href="#testimonials">Church Officials</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="{% url 'home:community' %}">Community</a></li>
+          <li class="menu-has-children"><a href="#">Articles</a>
+            <ul>
+              <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+              <li><a href="{% url 'home:articles' 'hab' %}">History & Biography</a></li>
+              <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+              <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+            </ul>
+          </li>
+          <li class="menu-has-children"><a href="#">Downloads</a>
+            <ul>
+              <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+              <li><a href="{% url 'home:downloads' 'videos' %}">Video</a></li>
+              <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+              <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+              <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+            </ul>
+          </li>
+          <li class="menu-has-children"><a href="#">More</a>
+            <ul>
+              <li><a href="{% url 'home:forms' 'members_account' %}">Sign Up</a></li>
+              <li><a href="{% url 'home:sign_in' %}">Login</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- #nav-menu-container -->
+    </div>
+  </header>
+  <!-- #header -->
+
+  <!--==========================
+  Recent News Section
+  ============================-->
+  <section id="team"> <!--======= DO NOT MODIFY THIS ID IT BREAKS THE CSS -->
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Recent News</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description"></p>
+        </div>
+      </div>
+
+      <div class="row">
+        {% if news_list %}
+        {% for news in news_list %}
+        <div class="col-md-3">
+          <a href="{% url 'home:active_article' type='news' title=news.title %}">
+          <div class="member">
+            <div class="pic"><img src="media/{{ news.article_image }}" alt=""></div>
+            <h4>{{ news.title }}</h4>
+          </div>
+          </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="{% static 'home/imperial/img/team-2.jpg' %}" alt=""></div>
+            <h4>Sarah Jhinson</h4>
+            <span>Product Manager</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="{% static 'home/imperial/img/team-3.jpg' %}" alt=""></div>
+            <h4>William Anderson</h4>
+            <span>CTO</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+
+  <!--==========================
+  About Section
+  ============================-->
+  <section id="about">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">About Us</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">Here's a little something about us.</p>
+        </div>
+      </div>
+    </div>
+    <div class="container about-container wow fadeInUp">
+      <div class="row">
+
+        <div class="col-lg-6 about-img">
+          <img src="media/{{ church_detail.aboutimage_set.all.0.photo }}" alt="">
+        </div>
+
+        <div class="col-md-6 about-content">
+          {% if church_detail.about_set.all %}
+          {% for about in church_detail.about_set.all %}
+          <h2 class="about-title">{{ about.title }}</h2>
+          <p class="about-text">{{ about.content }}</p>
+          {% endfor %}
+          {% else %}
+          <h2 class="about-title">We provide great services and ideas</h2>
+          <p class="about-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+            in reprehenderit in voluptate
+          </p>
+          {% endif %}
+          <h2 class="about-title">Our Mission</h2>
+          <p class="about-text">
+            {{ church_detail.mission_statement }}
+          </p>
+          <h2 class="about-title">Our Vision</h2>
+          <p class="about-text">
+            {{ church_detail.vision_statement }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+  Church Services Section
+  ============================-->
+  <section id="services">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Our Church Services & events</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">The following events and services are organized by our church weekly, monthly and anually.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        {% if church_detail.service_set.all %}
+        {% for service in church_detail.service_set.all %}
+        <div class="col-md-4 service-item">
+          <h4 class="service-title"><a href="">{{ service.title }}</a></h4>
+          <p class="service-description">{{ service.summary}}</p>
+          <p class="service-description"><b>Held {{ service.held_on }} at {{ service.held_at }}</b></p>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-md-4 service-item">
+          <h4 class="service-title"><a href="">Lorem Ipsum</a></h4>
+          <p class="service-description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+          <p class="service-description">Held on Thursdays at Heavens Gate</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+
+
+  <!--==========================
+  Church officials Section
+  ============================-->
+  <section id="testimonials"> <!--======= DO NOT MODIFY THIS ID IT BREAKS THE CSS -->
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Church Officials</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">Meet the venerable men of the Most High</p>
+        </div>
+      </div>
+      {% if church_detail.churchofficial_set.all %}
+      {% for church_official in church_detail.churchofficial_set.all %}
+      <div class="row">
+        <div class="col-md-3">
+          <div class="profile">
+            <div class="pic"><img src="media/{{ church_official.photo }}" alt=""></div>
+            <span>{{ church_official.title }}</span>
+            <h4>{{ church_official.full_name }}</h4>
+            <span>{{ church_official.position }}</span>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="quote">
+            <b><img src="{% static 'home/imperial/img/quote_sign_left.png' %}" alt=""></b> {{ church_official.small_bio }}<small><img src="{% static 'home/imperial/img/quote_sign_right.png' %}" alt=""></small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="row">
+        <div class="col-md-9">
+          <div class="quote">
+            <b><img src="{% static 'home/imperial/img/quote_sign_left.png' %}" alt=""></b> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis architecto beatae. <small><img src="{% static 'home/imperial/img/quote_sign_right.png' %}" alt=""></small>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="profile">
+            <div class="pic"><img src="{% static 'home/imperial/img/client-2.jpg' %}" alt=""></div>
+            <h4>Sara Wilsson</h4>
+            <span>Odeo Inc</span>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </section>
+
+
+  <!--==========================
+  Contact Section
+  ============================-->
+  <section id="contact">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Contact Us</h3>
+          <div class="section-title-divider"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="info">
+            <div>
+              <i class="fa fa-map-marker"></i>
+              <p>{{ church_detail.address }}</p>
+            </div>
+
+            <div>
+              <i class="fa fa-envelope"></i>
+              <p>{{ church_detail.email }}</p>
+            </div>
+
+            <div>
+              <i class="fa fa-phone"></i>
+              {% for phone in church_detail.phone_set.all %}
+              <p><b>{{ phone.name}}</b> on {{ phone.number}}</p><br>
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!--==========================
+  Other Pages
+============================-->
+<section id="others">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Other Pages</h3>
+          <div class="section-title-divider"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div><h4><a href="{% url 'home:forms' 'prayer_requests' %}">Send a prayer request</a></h4></div>
+          <div><h4><a href="{% url 'home:forms' 'suggestions' %}">Make Suggestions</a></h4></div>
+          <div><h4><a href="#" data-toggle="modal" data-target="#donations">Make Donations</a></h4></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+<!-- ================
+Modal for Donations
+================  -->
+<div class="modal" tabindex="-1" role="dialog" id="donations">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-title pt-6"><h4 class="pt-6">Making Donations</h4></div>
+      <div class="modal-body">
+        <p>Online payment options are temporarily unavailable as at the time of development. Works have been on to make that option available, but, you can still make your donations via <b>{{ church_detail.account_no }} {{ church_detail.account_name}} {{ church_detail.account_bank }}</b>. Thanks for your understanding and generosity. May the Most High contiue to enrich your purse. Amen.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--==========================
+  Footer
+============================-->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="copyright">
+            &copy; Copyright <strong>Imperial Theme</strong>. All Rights Reserved
+          </div>
+          <div class="copyright">
+            &copy; Copyright <strong>CSMC Happy Family Church Media Team 2019</strong>. All Rights Reserved
+          </div>
+          <div class="credits">
+            <!--
+              All the links in the footer should remain intact.
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Imperial
+            -->
+            Frontend Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+          <div class="credits">Backend Designed by <a href="#" data-toggle="modal" data-target="#web_detail">CSMC Happy Family Church Media Team 2019</a></div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- #footer -->
+
+
+  <!-- ================
+Modal for Credits
+================  -->
+<div class="modal" tabindex="-1" role="dialog" id="web_detail">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-title pt-6"><h3 class="pt-6">About website & Credits</h3></div>
+      <div class="modal-body">
+        <div><h4><b>All thanks and special dedication goes to God Almighty who made this possible.</b></h4></div>
+
+      <h5 class="grey-text">Made with</h5>
+      {%for tool in tools %}
+        <div class="container">
+          <div class="row">
+            <div class="col col-md-6">
+          <div class="pic"><img src="media/{{ tool.photo }}" class="img-responsive"></div>
+          <h5>{{ tool.name }}</h5>
+          <p>{{ tool.use }}</p>
+          <a href="{{ tool.website }}">{{ tool.website }}</a>
+    </div></div></div>
+      {% endfor %}
+      <h4 class="grey-text">Developers</h4>
+      {% for developer in developers %}
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+          <div class="pic"><img src="media/{{ developer.photo }}" class="img-responsive"></div>
+          <p><span><b>Name </b></span>{{ developer.full_name }}</p>
+          <p><span><b>Contributions </b></span>{{ developer.contributions }}</p>
+          <p><span><b>Programming Languages and specialization </b></span>{{ developer.languages }}</p>
+          <p><span><b>Phone number </b></span>{{ developer.phone}}</p>
+          <p><span><b>Email </b></span>{{ developer.email }}</p>
+          </div>
+          </div>
+      </div>
+      {% endfor %}
+      <h4 class="grey-text">Contributors</h4>
+      {% for contributor in contributors %}
+        <div class="container">
+          <div class="row">
+            <div class="col col-md-6">
+          <div class="pic"><img src="media/{{ contributor.photo }}" class="img-responsive"></div>
+          
+          <p><span><b>Name </b></span>{{ contributor.full_name }}</p>
+          <p><span><b>Contributions </b></span>{{ contributor.contributions }}</p>
+          <p><span><b>Phone number </b></span>{{ contributor.phone}}</p>
+          <p><span><b>Email </b></span>{{ contributor.email }}</p>
+  </div></div>
+          </div>
+      {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary close" data-dismiss="modal">Close</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- Required JavaScript Libraries -->
+  <script src="{% static 'home/imperial/lib/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/superfish/hoverIntent.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/superfish/superfish.min.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/morphext/morphext.min.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/wow/wow.min.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/stickyjs/sticky.js' %}"></script>
+  <script src="{% static 'home/imperial/lib/easing/easing.js' %}"></script>
+
+  <!-- Template Specisifc Custom Javascript File -->
+  <script src="{% static 'home/imperial/js/custom.js' %}"></script>
+
+
+
+</body>
+
+</html>

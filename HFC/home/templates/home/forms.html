@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{% if suggestionform %}Make Suggestions{% endif %}
+{% if prayerform %} Send Prayer Request{% endif %}
+{% if membersform %}Members Sign Up{% endif %}
+{% endblock %}
+{% block navbar_menu %}
+<ul class="hide-on-med-and-down right">
+	<li><a href="{% url 'home:altindex'%}"> <i class="fa fa-home"></i> Home</a></li>
+</ul>
+{% endblock %}
+{% block navbar_menu_mobile %}
+<ul>
+  <li><a href="{% url 'home:altindex'%}"> <i class="fa fa-home"></i> Home</a></li>
+  <li><a href="" class = "{% block home_state1 %}{% endblock %}"><i class="fa fa-book"></i> Articles</a></li>
+  <li><a href="" class = "{% block download_state1 %}{% endblock %}"><i class="fa fa-download"></i> Download</a></li>
+  <li><a href="#" class= "{% block community_state1 %}{% endblock %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  {% if suggestionform %}
+  <li><a href="{% url 'home:forms' 'suggestions' %}" class="white-text">Suggestions</a></li>
+  {% endif %}
+  {% if prayerform %}
+  <li><a href="{% url 'home:forms' 'prayer_requests' %}" class="white-text">Prayer Requests</a></li>
+  {% endif %}
+  {% if membersform %}
+  <li><a href="{% url 'home:forms' 'members_account' %}" class="white-text"><i class="fa fa-user-plus white-text"></i> Sign up</a></li>
+  {% endif %}
+</ul>
+{% endblock %}
+{% block container %}
+<div class="container" align="center">
+	<br><br><br><br><br><br>
+	<div class="row">
+    <div class="col s12 m10">
+      <div class="card-panel blue-text text-darken-3">
+        {% if suggestionform %}
+        	{%block forsuggestions %}
+        	<h5>Please Type In Your Suggestions</h5>
+			<form action="suggestions" method="post">  <!-- To fix hard coded url when there's data  -->
+				{% csrf_token %}
+				<div class="row">
+					<div class="input-field col s12 m6">
+						{{ suggestionform.name }}
+						<label>Name</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6">
+						{{ suggestionform.message }}
+						<label>Suggestion</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6">
+						<button type="submit" class="btn-floating btn-large green waves-effect waves-light"><i class="fa fa-paper-plane"></i> Submit</button>
+					</div>
+				</div>
+			</form>        
+        {% endblock %}
+        {% endif %}
+        {% if prayerform %}
+        	{%block forprayer %}
+        	<h5>Please Type In Your Prayer Request</h5>
+			<form action="prayer_requests" method="post">
+				{% csrf_token %}
+				<div class="row">
+					<div class="input-field col s12 m6">
+						{{ prayerform.name }}
+						<label>Name</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6">
+						{{ prayerform.message }}
+						<label>Prayer</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6">
+						<button type="submit" class="btn-floating btn-large green waves-effect waves-light"><i class="fa fa-paper-plane"></i> Submit</button>
+					</div>
+				</div>
+			</form>        
+        {% endblock %}
+        {% endif %}
+        {% if membersform %}
+        <h5>Members Sign Up</h5>
+        	<form action="members_account" method="POST" enctype="multipart/form-data">
+        		{% csrf_token %}
+        		<div class="row">
+					<div class="input-field col s12 m6">
+						{{ membersform.firstname }}
+						<label>First Name</label>
+						<span class="helper-text" data-error="invalid" data-success="valid"></span>
+					</div>
+					<div class="input-field col s12 m6">
+						{{ membersform.lastname }}
+						<label>Last Name</label>
+						<span class="helper-text" data-error="invalid" data-success="valid"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.email }}
+						<label>Email</label>
+						<span class="helper-text" data-error="invalid email" data-success="valid email"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.phone }}
+						<label>Phone Number</label>
+						<span class="helper-text" data-error="invalid phone number" data-success="valid phone number"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.D_O_B }}
+						<label>Date of birth</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.gender }}
+						<label>Gender</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.username }}
+						<label>Username</label>
+						<span class="helper-text" data-error="invalid username" data-success="valid username"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						<input type="password" id = 'passwd'>
+						<label>Password</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.passwd }}
+						<label>Confirm Password</label>
+						<span class='helper-text red-text left' id="passwd_status"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						<div class="file-field input-field">
+      						<div class="btn">
+        						<span>Upload Picture</span>
+        							{{ membersform.path_to_pix }}
+      						</div>
+      					<div class="file-path-wrapper">
+        					<input class="file-path validate" type="text">
+      					</div>
+    				</div>
+				</div></div>
+				<div class="row">
+					<div class="input-field col s12 m9">
+						{{ membersform.function_held }}
+						<label>Post held</label>
+					</div>
+				</div>
+        		<div class="row">
+					<div class="input-field col s12 m6">
+						<button type="submit" class="btn-floating btn-large green waves-effect waves-light" id="toSubmit" onclick="loader()"><i class="fa fa-user-plus"></i> Submit</button>
+					</div>
+				</div>
+        	</form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="{% static 'home/js/validate_password.js' %}"></script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.datepicker');
+    var options0 = {
+    	format : 'yyyy-mm-dd',
+    	yearRange :[1918, 2018]
+    }
+    var formatdate = M.Datepicker.init(elems, options0);
+  });
+
+	var loader = function () {
+		document.getElementById("toSubmit").innerHTML = '<span class="fa fa-spinner fa-spin"></span>'
+	}
+</script>
+{% endblock%}

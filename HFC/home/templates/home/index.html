@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}H.F.C | Home {% endblock %}
+{% block navbar_menu %}
+<!-- dropdown for dowmloads -->
+<ul class="dropdown-content" id="downloads1">
+  <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles1">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul class="hide-on-med-and-down right">
+  <li><a href="#!" data-target='articles1' class="dropdown-trigger"><i class="fa fa-book"></i> Articles <i class="fa fa-angle-double-down"></i></a></li>
+  <li><a href="#!" data-target='downloads1' class="dropdown-trigger"><i class="fa fa-download"></i> Downloads <i class="fa fa-angle-double-down"></i></a></li>
+  <li><a href="{% url 'home:community' %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+</ul>
+{% endblock %}
+{% block navbar_menu_mobile %}
+<!-- dropdowm for downloads -->
+<ul class="dropdown-content" id="downloads2">
+  <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles2">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul>
+  <li><a href="{% url 'home:index'%}" class="white-text"> <i class="fa fa-home white-text"></i> Home</a></li>
+  <li><a href="" class = "{% block home_state1 %}{% endblock %} dropdown-trigger" data-target='articles2'><i class="fa fa-book"></i> Articles</a></li>
+  <li><a href="" class = "{% block download_state1 %}{% endblock %} dropdown-trigger" data-target='downloads2'><i class="fa fa-download"></i> Downloads</a></li>
+  <li><a href="{% url 'home:community' %}" class= "{% block community_state1 %}{% endblock %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+  <li><a href="{% url 'home:forms' 'suggestions' %}"><i class="fa fa-question"></i>Suggestions</a></li>
+  <li><a href="{% url 'home:forms' 'prayer_requests' %}"><i class="fa fa-bible"></i> Prayer Requests</a></li>
+</ul>
+{% endblock %}
+{% block container %}
+
+ {% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+    <li><a href="#0" class="btn-floating red cd-top js-cd-top"><i class="fa fa-arrow-circle-up"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+  
+{% block header %}
+<div class="container">
+
+<!-- To remove this code later -->
+{% if user.is_authenticated %}
+  <p class="red-text"><span class="fa fa-exclamation"></span> You are an authenticated user! {{ user.get_username }}</p>
+  {% else %}
+  <p class="green-text"><span class="fa fa-home"></span> You're not an authenticated user</p>
+  {% endif %}
+<!-- end -->
+
+<h2 class = "header">{{ welcome_header }}</h2>
+<p class="grey-text text-darken-3 lighten-3">{{ welcome_body }}</p>
+</div>
+{% endblock %}
+<div><img src="{% static '/home/images/body/lion.jpg' %}" class="hide-on-med-and-up responsive-img"></div>
+ 	<div class="parallax-container hide-on-small-only">
+      <div class="parallax"><img src="{% static '/home/images/body/lion.jpg' %}"></div></div>
+    <div class="section white">
+      <div class="row container">
+        <div class="col s12 m6">
+          <h2 class="header">{{ mission_header}}</h2>
+          <p class="grey-text text-darken-3 lighten-3">{{ mission_body }}</p>
+        </div>
+        <div class="col s12 m6">
+          <h2 class="header">{{ vision_header}}</h2>
+          <p class="grey-text text-darken-3 lighten-3">{{ vision_body }}</p>
+        </div>
+      </div>
+    </div>
+    <div><img src="{% static '/home/images/body/body2.jpg' %}" class="hide-on-med-and-up responsive-img"></div>
+    <div class="parallax-container hide-on-small-only">
+      <div class="parallax"><img src="{% static '/home/images/body/body2.jpg' %}"></div>
+  </div>
+<div class="section white">
+  <div class="row container">
+    <div class="col s12 m8">
+      <h2 class="header">{{ core_values_header}}</h2>
+      <h4 class="blue-text">{{ core_values_preamble }}</h4>
+      <ul>
+        <li><strong><i class="fa fa-angle-double-right"></i></strong> {{ core_values_l1 }}</li>
+        <li><i class="fa fa-angle-double-right"></i> {{ core_values_l2 }}</li>
+        <li><i class="fa fa-angle-double-right"></i> {{ core_values_l3 }}</li>
+        <li><i class="fa fa-angle-double-right"></i> {{ core_values_l4 }}</li>
+        <li><i class="fa fa-angle-double-right"></i> {{ core_values_l5 }}</li>
+      </ul>
+    </div>
+</div>
+
+
+{% endblock%}
+{% block home_state %}active{% endblock %}

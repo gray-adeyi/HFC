@@ -1,0 +1,220 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}{{ forum.forum_name }} Forum{% endblock %}
+{% block style %}
+<style type="text/css">
+  body{
+    background-image: url('{% static 'home/images/bg/HFC_1080X1041_BLUE_bg.png' %}');
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+{% endblock %}
+{% block contents %}
+
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper blue">
+        <div class="hide-on-med-and-down">
+          <a href="#!" class="brand-logo"></a>
+        </div>
+        <div class="hide-on-med-and-up">
+          <a href="#!" class="brand-logo">HFC Forums</a>
+        </div>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#chat" class="modal-trigger">Send Message <i class="fa fa-paper-plane"></i></a></li>
+          <li><a href="{% url 'home:forum' name=forum.forum_name mail=user.username %}">Refresh <i class="fa fa-sync"></i></a></li>
+          <li><a href="{% url 'home:forum' name=forum.forum_name mail=user.username %}?msg=all">All Messages <i class="fa fa-envelope-square"></i></a></li>
+          {% if forum_detail.created_by == member.member_to_string %}
+        <li><a href="#modal2" class="waves-effect waves-light modal-trigger">Update Members <i class="fa fa-user-cog"></i></a></li>
+    {% endif %}
+          <li><a href="#!"><span class="badge green darken-2"><b class="white-text">{{ forum_detail.created_by }}</b></span> Admin <i class="fa fa-user-shield"></i></a></li>
+          <li><a href="#!"><span class="badge green darken-2"><b class="white-text">{{ forum_detail.total_no_of_members }}</b></span> Members <i class="fa fa-users"></i></a></li>
+          <li><a href="{% url 'home:remove_from_forum' name=forum.forum_name mail=user.email %}"><span class="fa fa-walking"></span> Leave Forum</a></li>
+          <li><a class="waves-effect" href="{% url 'home:member_logout' %}">Logout <i class="fa fa-sign-out-alt"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#!" class="blue">{{ forum.forum_name }} Forum</a></li>
+    <li><a href="{% url 'home:member_account' mail=user.username %}"><i class="fa fa-id-badge"></i> My Dashboard</a></li>
+    <li><a href="{% url 'home:forum' name=forum.forum_name mail=user.username %}"><i class="fa fa-sync"></i> Refresh</a></li>
+    <li><a href="{% url 'home:forum' name=forum.forum_name mail=user.username %}?msg=all"><i class="fa fa-envelope-square"></i> All Messages</a></li>
+    {% if forum_detail.created_by == member.member_to_string %}
+        <li><a href="#modal2" class="waves-effect waves-light modal-trigger"><i class="fa fa-user-cog"></i> Update Members</a></li>  
+    {% endif %}
+    <li><a href="{% url 'home:remove_from_forum' name=forum.forum_name mail=user.email %}"><span class="fa fa-walking"></span> Leave Forum</a></li>
+    <li><a href="#!"><i class="fa fa-users"></i> Forum member[s] are<span class="badge green white-text">{{ forum_detail.total_no_of_members }}</span></a></li>
+    <li><a class="waves-effect" href="{% url 'home:member_logout' %}"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Other Forums</a></li>
+    {% if active_forums %}
+      {% for forum in active_forums %}
+      <li><a class="waves-effect" href="{% url 'home:forum' name=forum.forum_name mail=member.email %}">{{ forum.forum_name }}</a></li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+ 
+ <br><br>
+
+ {% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+    <li><a href="#chat" class=" btn-floating green modal-trigger"><i class="fa fa-paper-plane"></i></a></li>
+    <li><a href="{% url 'home:forum' name=forum.forum_name mail=user.username %}" class=" btn-floating yellow modal-trigger"><i class="fa fa-sync"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+{% if messages %}
+{% for message in messages %}
+<div class="row">
+    <div class="col s12 m6 {% if member.member_to_string == message.posted_by %}right{% endif %}">
+      <div class="card {% if member.member_to_string == message.posted_by%}cyan lighten-4{% else %}blue darken-4{% endif %} darken-1">
+        <div class="card-content white-text">
+          <b>{{ message.content }}</b>
+        </div>
+        <div class="card-action">
+          <a href="#" class="white-text">{{ message.posted_by }}</a>
+          <a href="#!" class="white-text">{{ message.upload_time | date:"d-M-Y" }} at {{ message.upload_time | time }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endif%}
+<p id='theFocus'></p>
+<script type="text/javascript">
+  var g = document.getElementById('theFocus').scrollIntoView();
+</script>
+
+  <!-- Modal Structure -->
+  <div id="chat" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Send Message</h4>
+      {% if messenger %}
+      	<form method="POST" action="{% url 'home:forum' name=forum.forum_name mail=user.username %}">
+      	{% csrf_token %}
+      	<div class="row">
+        <div class="input-field col s6 hide">
+          {{ messenger.source_forum }}
+        </div>
+      	<div class="input-field col s6 ">
+          {{ messenger.posted_by }}
+        </div>
+        <div class="input-field col s12">
+        	<i class="fa fa-paper-plane prefix"></i>
+          {{ messenger.content }}
+          <label for="textarea1">Message Content</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <button class=" right btn-floating btn-large green waves-effect waves-light" type="submit"><i class="fa fa-paper-plane"></i></button>
+          </div>
+      </div>
+      </form>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+        <h4>Update Forum Members <i class="fa fa-user-cog"></i></h4>
+        <form action="{% url 'home:update' mail=member.email name=forum.forum_name %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+            <div class="col s12 m6 hide">
+            <div class="input-field">
+              {{ update_members.forum_name }}
+              <label>Forum name</label>
+            </div>
+            <p class="red-text">{{ update_members.forum_name.errors }}</p>
+            <div class="input-field col s12 m9">
+            {{ update_members.forum_type }}
+            <label>Choose Forum Type</label>
+            <p class="red-text">{{ update_members.forum_type.errors }}</p>
+          </div>
+            </div>
+            <div class="input-field col s12 m9 hide">
+            <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Forum Logo</span>
+                      {{ update_members.forum_logo }}
+                  </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Forum logo">
+                  <p class="red-text">{{ update_members.forum_logo.errors }}</p>
+                </div>
+                </div>
+            </div>
+            <div class="input-field col s12 hide">
+          {{ update_members.forum_description }}
+          <label for="forum_description">Description</label>
+          <p class="red-text">{{ update_members.forum_description.errors }}</p>
+            </div>
+        <div class="input-field col s12">
+          {{ update_members.forum_members }}
+          <label>Select Members</label>
+          <p class="red-text">{{ update_members.forum_members.errors }}</p>
+        </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <button type="submit" class="waves-effect waves-light btn-large green"><i class="fa fa-sign-in"></i> Submit</button>
+            </div>
+          </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+{% endblock %}
+{% block footer %}
+
+        <footer class="page-footer black">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">About {{ forum.forum_name }} Forum</h5>
+                <p class="grey-text text-lighten-4">This forum was created by <i class="green-text">{{ forum_detail.created_by }}</i> on {{ forum_detail.created_on }} and has a
+                total of {{ forum_detail.total_no_of_members }} members.</p>
+                <p class="grey-text text-lighten-4">{{ forum.forum_description }}</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text"></h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2019 Copyright Church Media. All Rights Reserved.
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+        </footer>
+
+        <script type="text/javascript">
+          {% if forum_detail.created_by == member.member_to_string %}
+          console.log('you are the admin')
+          {% endif %}
+        </script>
+
+        <!-- This is where ajax gets the credentials for reloading the page-->
+        <p class="hide" id='theUrl'>{% url 'home:forum' name=forum.forum_name mail=user.username %}</p>
+            
+{% endblock %}

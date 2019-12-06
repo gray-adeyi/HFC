@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}H.F.C | Community {% endblock %}
+{% block link %}<link rel="stylesheet" type="text/css" href="{% static 'home/css/slider.css' %}">{% endblock %}
+{% block navbar_menu %}
+<!-- dropdown for dowmloads -->
+<ul class="dropdown-content" id="downloads1">
+  <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles1">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul class="hide-on-med-and-down right">
+  <li><a href="#!" data-target='articles1' class="dropdown-trigger"><i class="fa fa-book"></i> Articles <i class="fa fa-angle-double-down"></i></a></li>
+  <li><a href="#!" data-target='downloads1' class="dropdown-trigger"><i class="fa fa-download"></i> Downloads <i class="fa fa-angle-double-down"></i></a></li>
+  <li class="active"><a href="{% url 'home:community' %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+</ul>
+{% endblock %}
+{% block navbar_menu_mobile %}
+<!-- dropdowm for downloads -->
+<ul class="dropdown-content" id="downloads2">
+  <li><a href="{% url 'home:downloads' 'music' %}">Music</a></li>
+  <li><a href="{% url 'home:downloads' 'videos' %}">Videos</a></li>
+  <li><a href="{% url 'home:downloads' 'picture' %}">Pictures</a></li>
+  <li><a href="{% url 'home:downloads' 'pdf' %}">Pdf</a></li>
+  <li><a href="{% url 'home:downloads' 'others' %}">Others</a></li>
+</ul>
+
+<!-- dropdown for articles -->
+<ul class="dropdown-content" id="articles2">
+  <li><a href="{% url 'home:articles' 'news' %}">News</a></li>
+  <li><a href="{% url 'home:articles' 'hab' %}">History and Biography</a></li>
+  <li><a href="{% url 'home:articles' 'biblestudy' %}">Bible Study</a></li>
+  <li><a href="{% url 'home:articles' 'others' %}">Others</a></li>
+</ul>
+
+<ul>
+  <li><a href="{% url 'home:altindex'%}"> <i class="fa fa-home white-text"></i> Home</a></li>
+  <li><a href="" class = "{% block home_state1 %}{% endblock %} dropdown-trigger" data-target='articles2'><i class="fa fa-book"></i> Articles</a></li>
+  <li><a href="" class = "{% block download_state1 %}{% endblock %} dropdown-trigger" data-target='downloads2'><i class="fa fa-download"></i> Downloads</a></li>
+  <li class="active"><a href="#" class= "{% block community_state1 %}white-text{% endblock %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"><i class='fa fa-sign-in'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+  <li><a href="{% url 'home:forms' 'suggestions' %}"><i class="fa fa-question"></i>Suggestions</a></li>
+  <li><a href="{% url 'home:forms' 'prayer_requests' %}"><i class="fa fa-bible"></i> Prayer Requests</a></li>
+</ul>
+{% endblock %}
+{% block container %}
+
+ {% if user.is_authenticated %}
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large fa fa-bars"></i>
+  </a>
+  <ul>
+    <li><a href="{% url 'home:member_account' mail=user.username %}" class=" btn-floating blue"><i class="fa fa-id-badge"></i></a></li>
+    <li><a href="#0" class="btn-floating red cd-top js-cd-top"><i class="fa fa-arrow-circle-up"></i></a></li>
+  </ul>
+</div>
+  {% endif %}
+
+ {% if news or history_bio or bstudy or otherA %}
+<div class="slider hide-on-small-only">
+    <ul class="slides">
+      {% for n in news %}
+        <li>
+        <img src="/media/{{ n.article_image }}" class="responsive-img"> <!-- random image -->
+        <div class="caption left-align">
+          <h3>{{ n.title }}</h3>
+          <h5 class="light grey-text text-lighten-3 truncate">{{ n.content }}</h5>
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='news' title=n.title %}">Read More...</a>
+        </div>
+      </li>
+      {% endfor %}
+      {% for hb in history_bio %}
+        <li>
+        <img src="/media/{{ hb.article_image }}" class="responsive-img"> <!-- random image -->
+        <div class="caption center-align">
+          <h3>{{ hb.title }}</h3>
+          <h5 class="light grey-text text-lighten-3 truncate">{{ hb.content }}</h5>
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='hab' title=hb.title %}">Read More...</a>
+        </div>
+      </li>
+      {% endfor %}
+      {% for b in bstudy %}
+        <li>
+        <img src="/media/{{ b.article_image }}" class="responsive-img"> <!-- random image -->
+        <div class="caption center-align">
+          <h3>{{ b.title }}</h3>
+          <h5 class="light grey-text text-lighten-3 truncate">{{ b.content }}</h5>
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='biblestudy' title=b.title %}">Read More...</a>
+        </div>
+      </li>
+      {% endfor %}
+      {% for o in otherA %}
+        <li>
+        <img src="/media/{{ o.article_image }}" class="responsive-img"> <!-- random image -->
+        <div class="caption center-align">
+          <h3>{{ o.title }}</h3>
+          <h5 class="light grey-text text-lighten-3 truncate">{{ o.content }}</h5>
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='others' title=o.title %}">Read More...</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+ {% endif %}
+
+
+<div class="hide-on-med-and-up">
+  <strong class="blue-text text-darken-1">Hurray! Cherubim and Seraphim Church Idimu district now has an online platform. Sign up now to join the group, where ideas can be discussed and pressing matters can be broken to chunks and suitable solutions can arise. Please bear in mind that
+  the initiative behind the creation of this platform is to help develop the church, it's member, well wisher and the world at large. Take note that the features for communications of this site are crude and they will be improved over time. click the sign up button to create your account.</strong>
+<a href="{% url 'home:forms' 'members_account' %}" class="btn-flat blue white-text">Sign Up</a>
+  {% if news or history_bio or bstudy or otherA %}
+    <div class="row">
+          {%if news %}<h4 class="blue-text text-lighten-3"><span class="blue-text text-darken-1">N</span>ews <span class="blue-text text-darken-1">U</span>pdate</h4>{% endif %}
+        {% for n in news %}
+          <div class="col s12 m6">
+      <div class="card cyan lighten-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{ n.title }}</span>
+          <p class="truncate">{{ n.content }}</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='news' title=n.title %}">Read More...</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}</div>
+
+   <div class="row">
+          {% if history_bio %}<h4 class="blue-text text-lighten-3"><span class="blue-text text-darken-1">R</span>ecent in <span class="blue-text text-darken-1">H</span>istory and <span class="blue-text text-darken-1">B</span>iography</h4>{% endif %}
+        {% for hb in history_bio %}
+          <div class="col s12 m6">
+      <div class="card cyan lighten-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{ hb.title }}</span>
+          <p class="truncate">{{ hb.content }}</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='hab' title=hb.title %}">Read More...</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}</div>
+
+   <div class="row">
+          {% if bstudy %}<h4 class="blue-text text-lighten-3"><span class="blue-text text-darken-1">B</span>ible <span class="blue-text text-darken-1">S</span>tudy <span class="blue-text text-darken-1">R</span>eview</h4>{% endif %}
+        {% for b in bstudy %}
+          <div class="col s12 m6">
+      <div class="card cyan lighten-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{ b.title }}</span>
+          <p class="truncate">{{ b.content }}</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='biblestudy' title=b.title %}">Read More...</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}</div>
+
+      <div class="row">
+          {% if otherA %}<h4 class="blue-text text-lighten-3"><span class="blue-text text-darken-1">O</span>ther <span class="blue-text text-darken-1">A</span>rticles <span class="blue-text text-darken-1">R</span>eview</h4>{% endif %}
+        {% for oa in otherA %}
+          <div class="col s12 m6">
+      <div class="card cyan lighten-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{ oa.title }}</span>
+          <p class="truncate">{{ oa.content }}</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='others' title=oa.title %}">Read More...</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}</div>
+
+    {% endif %}
+  </div>
+
+</div>
+
+
+<div class="container">
+  <h3>Now Available in the Downloads Center for download.</h3>
+  {%if music or video or picture or pdf or otherD %}{% endif %}
+ <ul class="collection">
+    {% if music %}
+     {% for m in music %}
+       <li class="collection-item avatar">
+      {% for mf in m.downloadfile_set.all %}
+        <img src="/media/{{ mf.poster }}" class="circle">
+      {% endfor %}
+      <span class="title">{{ m.filename }}</span>
+      <div><a class="waves-effect waves-light btn modal-trigger blue" href="#{{ m.filename }}">Listen</a></div>
+         <!-- The modal -->
+    <div id="{{ m.filename }}" class="modal">
+    <div class="modal-content">
+      <h4>Listening to {{ m.filename }}</h4>
+      <p>click on the play button to listen now.</p>
+       <audio controls='controls'>
+  <source src="/media/{% for mf in m.downloadfile_set.all %}{{ mf.data }}{% endfor %}" type="audio/ogg" />
+  <source src="/media/{% for mf in m.downloadfile_set.all %}{{ mf.data }}{% endfor %}" type="audio/mpeg" />
+  <source src="/media/{% for mf in m.downloadfile_set.all %}{{ mf.data }}{% endfor %}" type="audio/wav" />
+Your browser does not support the audio element.
+</audio> 
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+      </div>
+      <a href="{% url 'home:download_now' type='music' filename=m.filename %}" class="secondary-content"><i class="fa fa-download"></i></a>
+    </li>
+     {% endfor %}
+    {% endif %}
+
+    {% if video %}
+     {% for v in video %}
+       <li class="collection-item avatar">
+      {% for vf in v.downloadfile_set.all %}
+        <img src="/media/{{ vf.poster }}" class="circle">
+      {% endfor %}
+      <span class="title">{{ v.filename }}</span>
+      <div><a class="waves-effect waves-light btn modal-trigger blue" href="#{{ v.filename }}">Watch now</a></div>
+         <!-- The modal -->
+    <div id="{{ v.filename }}" class="modal">
+    <div class="modal-content">
+      <h4>You're now watching {{ v.filename }}</h4>
+      <p>Click on the play button to watch video</p>
+       <video width="320" height="240" poster="/media/{% for x in v.downloadfile_set.all %}{{ x.poster }}{% endfor %}" controls="controls" class="responsive-video">
+  <source src="/media/{% for x in v.downloadfile_set.all %}{{ x.data }}{% endfor %}" type="video/mp4">
+  <source src="/media/{% for x in v.downloadfile_set.all %}{{ x.data }}{% endfor %}" type="video/ogg" />
+  <source src="/media/{% for x in v.downloadfile_set.all %}{{ x.data }}{% endfor %}" type="video/webm" />
+Your browser does not support the video tag.
+</video>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+      </div>
+      <a href="{% url 'home:download_now' type='videos' filename=v.filename %}" class="secondary-content"><i class="fa fa-download"></i></a>
+    </li>
+     {% endfor %}
+    {% endif %}
+
+    {% if picture %}
+     {% for p in picture %}
+       <li class="collection-item avatar">
+      {% for pf in p.downloadfile_set.all %}
+        <img src="/media/{{ pf.poster }}" class="circle">
+      {% endfor %}
+      <span class="title">{{ p.filename }}</span>
+      <div><a class="waves-effect waves-light btn modal-trigger blue" href="#{{ p.filename }}">View</a></div>
+         <!-- The modal -->
+    <div id="{{ p.filename }}" class="modal">
+    <div class="modal-content">
+      <h4>You're now viewing {{ p.filename }}</h4>
+      <img src="/media/{% for x in p.downloadfile_set.all %}{{x.data}}{% endfor %}" class="responsive-img">
+      <p><a href="/media/{% for x in p.downloadfile_set.all %}{{ x.data }}{% endfor %}" download><i class="fa fa-download"></i> Save</a></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+      </div>
+      <a href="{% url 'home:download_now' type='picture' filename=p.filename %}" class="secondary-content"><i class="fa fa-download"></i></a>
+    </li>
+     {% endfor %}
+    {% endif %}
+
+    {% if pdf %}
+     {% for pd in pdf %}
+       <li class="collection-item avatar">
+      {% for pdff in pd.downloadfile_set.all %}
+        <img src="/media/{{ pdff.poster }}" class="circle">
+      {% endfor %}
+      <span class="title">{{ pd.filename }}</span>
+      <div><a class="waves-effect waves-light btn modal-trigger blue" href="#{{ pd.filename }}">View</a></div>
+         <!-- The modal -->
+    <div id="{{ pd.filename }}" class="modal">
+    <div class="modal-content">
+      <h4>Download {{ pd.filename }}</h4>
+      <a href="/media/{% for x in pd.downloadfile_set.all %}{{ x.data}}{% endfor %}" download>click to download {{ pd.filename }}</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+      </div>
+      <a href="{% url 'home:download_now' type='pdf' filename=pd.filename %}" class="secondary-content"><i class="fa fa-download"></i></a>
+    </li>
+     {% endfor %}
+    {% endif %}
+
+    {% if otherD %}
+     {% for od in otherD %}
+       <li class="collection-item avatar">
+      {% for odf in od.downloadfile_set.all %}
+        <img src="/media/{{ odf.poster }}" class="circle">
+      {% endfor %}
+      <span class="title">{{ od.filename }}</span>
+      <div><a class="waves-effect waves-light btn modal-trigger blue" href="#{{ od.filename }}">View</a></div>
+         <!-- The modal -->
+    <div id="{{ od.filename }}" class="modal">
+    <div class="modal-content">
+      <h4>Download {{ od.filename }}</h4>
+      <a href="/media/{% for x in od.downloadfile_set.all %}{{ x.data }}{% endfor %}" download>click to download {{ od.filename }}</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+      </div>
+      <a href="{% url 'home:download_now' type='other' filename=pd.filename %}" class="secondary-content"><i class="fa fa-download"></i></a>
+    </li>
+     {% endfor %}
+    {% endif %}
+  </ul>
+
+{% endblock%}
+{% block home_state %}active{% endblock %}
+{% block script %}<script type="text/javascript" src="{% static 'home/js/slider.js' %}"></script>
+<script type="text/javascript" src="{% static 'home/js/scroll-to-top-main.js' %}"></script>
+{% endblock %}

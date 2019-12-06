@@ -1,0 +1,32 @@
+
+{% if mail_type == 'new_signup' %}
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+  <strong style="-webkit-box-sizing: inherit;box-sizing: inherit;font-weight: bolder;">Hi <i class="blue-text" style="-webkit-box-sizing: inherit;box-sizing: inherit;line-height: inherit;color: #2196F3 !important;">{{ recipients_name }}</i>,</strong></div>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">You have successfully created your Happy family church online account.
+Please follow the link below to activate your account.</div>
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">please click on "Activate my account" below to complete the signing up process. Thanks for your patience.</div>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<a href="{% url 'home:activate' mail=recipients_email %}">Activate my account.</a>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div class="red-text" style="-webkit-box-sizing: inherit;box-sizing: inherit;color: #F44336 !important;">Please if you did not just sign up to Happy Family Church online,
+ignore this email.</div>
+</div>
+{% endif %}
+
+{% if mail_type == 'password_reset' %}
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+  <strong style="-webkit-box-sizing: inherit;box-sizing: inherit;font-weight: bolder;">Hi <b class="blue-text" style="-webkit-box-sizing: inherit;box-sizing: inherit;line-height: inherit;color: #2196F3 !important;">{{ members_details.firstname }}</b>,</strong></div>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">You have requested a password reset for your Happy family church online account.
+Please follow the link below to reset the password to your account.</div>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div style="-webkit-box-sizing: inherit;box-sizing: inherit;">please click on "Change my password" below to complete the password recovery process. Thanks for your patience.</div>
+<a href="{% url 'home:change_passwd' mail=recipients_email %}">Change my password.</a>
+<br style="-webkit-box-sizing: inherit;box-sizing: inherit;"><br style="-webkit-box-sizing: inherit;box-sizing: inherit;">
+<div class="red-text" style="-webkit-box-sizing: inherit;box-sizing: inherit;color: #F44336 !important;">Please if you did not just sign up to Happy Family Church online,
+ignore this email.</div>
+</div>
+{% endif %}

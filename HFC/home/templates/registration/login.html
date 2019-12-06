@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}HFC | Sign In{% endblock %}
+{% block navbar_menu %}
+<ul class="hide-on-med-and-down right">
+	<li><a href="{% url 'home:index'%}"> <i class="fa fa-home"></i> Home</a></li>
+</ul>
+{% endblock %}
+{% block navbar_menu_mobile %}
+<ul>
+  <li><a href="{% url 'home:index'%}"> <i class="fa fa-home"></i> Home</a></li>
+  <li><a href="" class = "{% block home_state1 %}{% endblock %}"><i class="fa fa-book"></i> Articles</a></li>
+  <li><a href="" class = "{% block download_state1 %}{% endblock %}"><i class="fa fa-download"></i> Download</a></li>
+  <li><a href="#" class= "{% block community_state1 %}{% endblock %}"><i class="fa fa-users"></i> Community</a></li>
+  <li><a href="{% url 'home:sign_in' %}"  class="white-text"><i class='fa fa-sign-in white-text'></i> Log in</a></li>
+  <li><a href="{% url 'home:forms' 'members_account' %}"><i class="fa fa-user-plus"></i> Sign up</a></li>
+</ul>
+{% endblock %}
+{% block container %}
+<div class="container" align="center">
+	<br><br><br><br><br><br>
+	<div class="row">
+		<div class="col s12 m10">
+			<div class="card-panel blue-text text-darken-3">
+				<h5>Log In</h5>
+				{% if sign_in.errors %}<p>Sorry. The username and password you just entered did not match any user's account. Please try again.</p>{% endif %}
+				<form action="" method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col s12 m6">
+						<div class="input-field">
+							{{ sign_in.email }}
+							<label>Email</label>
+						</div>
+						</div>
+						<div class="col s12 m6">
+						<div class="input-field">
+							{{ sign_in.password }}
+							<label>Password</label>
+						</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12 m6">
+							<button type="submit" class="waves-effect waves-light btn-large green"><i class="fa fa-sign-in"></i> Submit</button>
+						</div>
+					</div>
+				</form>
+				<a href="{% url 'home:forms' 'members_account' %}" class="left"><i class="fa fa-user-plus"></i> create account</a>
+				<a href="{% url 'home:password_recovery' %}" class="right">forgotten password</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
