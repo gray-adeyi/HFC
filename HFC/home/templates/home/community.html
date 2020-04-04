@@ -121,6 +121,7 @@
 
 
 <div class="hide-on-med-and-up">
+  <br>
   <strong class="blue-text text-darken-1">Hurray! Cherubim and Seraphim Church Idimu district now has an online platform. Sign up now to join the group, where ideas can be discussed and pressing matters can be broken to chunks and suitable solutions can arise. Please bear in mind that
   the initiative behind the creation of this platform is to help develop the church, it's member, well wisher and the world at large. Take note that the features for communications of this site are crude and they will be improved over time. click the sign up button to create your account.</strong>
 <a href="{% url 'home:forms' 'members_account' %}" class="btn-flat blue white-text">Sign Up</a>
@@ -132,7 +133,7 @@
       <div class="card cyan lighten-1">
         <div class="card-content white-text">
           <span class="card-title">{{ n.title }}</span>
-          <p class="truncate">{{ n.content }}</p>
+          <p class="truncate">{{ n.content | safe}}</p>
         </div>
         <div class="card-action">
           <a class="waves-effect waves-light btn blue" href="{% url 'home:active_article' type='news' title=n.title %}">Read More...</a>

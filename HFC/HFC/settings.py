@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
 '192.168.43.106',
 '192.168.43.108',
 '127.0.0.1',
+'172.20.10.12',
  'localhost']
 
 
@@ -134,5 +135,5 @@ MEDIA_URL = '/media/'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adeyigbenga005@gmail.com'
-EMAIL_HOST_PASSWORD = '!iamjigani'
+EMAIL_HOST_USER = 'demomail.coyote@gmail.com'
+EMAIL_HOST_PASSWORD = '!@#coyoteAlpha'

@@ -13,7 +13,7 @@ class Member(models.Model):
 	lastname = models.CharField(max_length = 50, default = 'UNKNOWN')
 	email = models.EmailField()
 	phone = models.CharField(max_length = 14)
-	D_O_B = models.DateField()
+	D_O_B = models.DateField(blank = True, null=True)
 	gender = models.CharField(max_length = 10)
 	username = models.CharField(max_length = 50)
 	passwd = models.CharField(max_length = 64)

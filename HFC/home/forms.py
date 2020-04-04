@@ -44,7 +44,7 @@ class MembersForm(forms.Form):
 	lastname = forms.CharField(max_length = 50, widget = forms.TextInput(attrs={'class':'validate'}))
 	email = forms.EmailField(widget = forms.EmailInput(attrs={'class':'validate'}))
 	phone = forms.CharField(max_length = 14, widget = forms.TextInput(attrs={'class':'validate'}))
-	D_O_B = forms.DateField(widget = forms.TextInput(attrs={'class':'datepicker', 'placeholder':'Optional'}), required = False)
+	D_O_B = forms.DateField(widget = forms.TextInput(attrs={'class':'datepicker', 'placeholder':'Optional'}), required=False)
 	gender = forms.CharField(max_length = 10, widget = forms.Select(attrs={'class':'validate'}, choices = sex))
 	username = forms.CharField(max_length = 50, widget = forms.TextInput(attrs={'class':'validate'}))
 	passwd = forms.CharField(max_length = 64, widget = forms.PasswordInput(attrs={'class':'validate','onfocus':'setInterval(validatePassword, 400)', 'id': 'confirm_passwd'}))

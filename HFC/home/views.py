@@ -702,7 +702,7 @@ class MemberAccountView(View):
 				current_date_day = current_date.day
 				current_date_month = current_date.month
 				for one_member in self.all_members:
-					if one_member.D_O_B.day == current_date_day:
+					if one_member.D_O_B is not None and one_member.D_O_B.day == current_date_day:
 						if one_member.D_O_B.month == current_date_month:
 							c1 = "%s has" % (one_member.firstname)
 							if one_member.gender == "male" or one_member.gender == "m":
